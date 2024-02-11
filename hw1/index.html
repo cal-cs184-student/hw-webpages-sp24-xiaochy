@@ -24,7 +24,30 @@
 				  </ul>
 			    <p><b>2. Algorithm Efficiency</b> </p>
 				<p> Since our algorithm does not traverse the whole frame buffer, but just traverse the bounding box of the triangle, our algorithm equals to the one that checks each sample within the bounding box of the triangle.</p>
-				<p> 3. Image Gallery: Rasterize triangle without supersampling</p>
-				
+				<p> <b>3. Image Gallery</b></p>
+				<p>Rasterize triangle without supersampling</p>
+			<h2> <b>Task 3</b></h2>
+				  <p>I tried to make the robot cheer up by doing the rotation to his arms and legs. </p>
+			<h2> <b>Task 5 </b></h2>
+				  <p><b>1. Pixel Sampling</b></p>
+				  <ul>
+					<li>Firstly, given the coordinates of the three vertices of the triangle on the frame buffer and the coordinates of an internal point of the triangle, we can calculate the Barycentric coordinates: alpha, beta, gamma = 1 - alpha - beta. </li>
+					<li>Secondly, knowing the corresponding coordinates of the three vertices of the triangle on the texture, we can utilize the previously calculated alpha, beta, gamma to calculate the coordinates of the internal point of the triangle on the texture using the ... formula. </li>
+					<li>Since the mapping coordinates on the texture may not be integers, we cannot directly obtain the color corresponding to the sample. Hence, we have two methods: sample_nearest() and sample_bilinear() to obtain the color corresponding to the sample. </li>
+					<li> <b>Two sampling methods</b>
+						<ul>
+							<li>sample_nearest(): This means we will find the nearest vertex on the texture to the sample texture coordinate and assign the color of that vertex to our sample.</li>
+							<li>sample_bilinear(): This means we will find the four nearest vertices on the texture to the sample texture coordinate and use trilinear interpolation to calculate the color of the sample.</li>
+						</ul>
+					</li>
+				  </ul>
+				  <p><b>2. Image Gallery</b></p>
+
+				  <p><b>3. Difference between two sampling methods</b></p>
+				  <ul>
+					<li>When the sample rate is low, there will be a large difference between those two methods and we should use the bilinear sampling method. Since the number of samples we have is small, we need bilinear sampling to make use of the colors of other points on the texture to make the image seem smooth. If we only make use of the nearest point on the texture, the image may look sharp.</li>
+					<li>When the sample rate is high, we can use either bilinear sampling or nearest sampling. Since the number of samples we have is large, even if each sample is assigned with the color value nearest to it, it will still create a smooth vision effect.</li>
+				  </ul>
+
 	</body>
 </html>
