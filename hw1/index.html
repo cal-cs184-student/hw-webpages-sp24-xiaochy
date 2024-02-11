@@ -25,9 +25,10 @@
 			    <p><b>2. Algorithm Efficiency</b> </p>
 				<p> Since our algorithm does not traverse the whole frame buffer, but just traverse the bounding box of the triangle, our algorithm equals to the one that checks each sample within the bounding box of the triangle.</p>
 				<p> <b>3. Image Gallery</b></p>
-				<p>Rasterize triangle without supersampling</p>
+				<img src="image_1.png" alt="Rasterize triangle without supersampling">
 			<h2> <b>Task 3</b></h2>
 				  <p>I tried to make the robot cheer up by doing the rotation to his arms and legs. </p>
+				  <img src="image_2.png" alt="cheer-up robot">
 			<h2> <b>Task 5 </b></h2>
 				  <p><b>1. Pixel Sampling</b></p>
 				  <ul>
@@ -42,7 +43,10 @@
 					</li>
 				  </ul>
 				  <p><b>2. Image Gallery</b></p>
-
+				  <img src="image_3.png" alt="Nearest Sampling + Sampling Rate = 1">
+				  <img src="image_4.png" alt="Nearest Sampling + Sampling Rate = 16">
+				  <img src="image_5.png" alt="Bilinear Sampling + Sampling Rate = 1">
+				  <img src="image_6.png" alt="Bilinear Sampling + Sampling Rate = 16">	
 				  <p><b>3. Difference between two sampling methods</b></p>
 				  <ul>
 					<li>When the sample rate is low, there will be a large difference between those two methods and we should use the bilinear sampling method. Since the number of samples we have is small, we need bilinear sampling to make use of the colors of other points on the texture to make the image seem smooth. If we only make use of the nearest point on the texture, the image may look sharp.</li>
