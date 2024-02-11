@@ -9,8 +9,7 @@
 	<script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
 	<style>
 		img {
-			max-width: 200px;
-			max-height: 150px;
+			max-width: 600px;
 		}
 	</style>
 </head>
@@ -21,14 +20,17 @@
 	<p><b>1. Walk through </b></p>
 	<p> To determine whether each pixel on the frame buffer is inside a given triangle:</p>
 	<ul>
-		<li>First, because the entire frame buffer is too large, traversing it entirely is too slow. Therefore, we start
+		<li>First, since the entire frame buffer is too large, it's too slow to traverse it entirely. Therefore, we
+			start
 			by calculating the bounding box for each of the three triangles using their vertices.
-			Then, we check each pixel within the bounding box. We approximate the coordinates of the bounding box
+			Then, we want to check whether each pixel within the bounding box is inside the triangle. We approximate the
+			coordinates of the bounding box
 			boundaries to integers using the floor function for easier traversal of pixels. Additionally,
 			we consider the coordinates of each pixel's midpoint as the coordinates to be evaluated within the function
 			to determine whether the pixel is inside the triangle.</li>
 		<li>Next, we determine whether the vertices of the given triangle are in clockwise or counterclockwise order. We
-			achieve this by calculating the cross product of vectors AB and AC, where A, B, and C represent the vertices
+			achieve this by calculating the cross product of vectors AB&#8407 and AC&#8407, where A, B, and C represent
+			the vertices
 			of the triangle.
 			If the cross product is negative, it indicates a clockwise order; otherwise, it indicates a counterclockwise
 			order.</li>
@@ -62,7 +64,8 @@
 			of the triangle on the texture using the ... formula. </li>
 		<li>Since the mapping coordinates on the texture may not be integers, we cannot directly obtain the color
 			corresponding to the sample. Hence, we have two methods: <code>sample_nearest()</code> and
-			<code>sample_bilinear()</code> to obtain the color corresponding to the sample. </li>
+			<code>sample_bilinear()</code> to obtain the color corresponding to the sample.
+		</li>
 		<li> <b>Two sampling methods</b>
 			<ul>
 				<li><code>sample_nearest()</code>: This means we will find the nearest vertex on the texture to the
