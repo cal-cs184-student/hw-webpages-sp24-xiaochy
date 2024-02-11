@@ -4,7 +4,8 @@
 <!DOCTYPE html>
 <html>
 	<head>
-		
+		<script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+		<script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
 	</head>
 	<body>
 		<h1><b> CS184 HW1: Rasterizer</b> </h1>
@@ -20,7 +21,7 @@
 					<li>Furthermore, we use the three-line test. If the vertices are in clockwise order, the result of the three-line test should be negative for the pixel to be inside the triangle. 
 						Conversely, if the vertices are in counterclockwise order, the result of the three-line test should be positive for the pixel to be inside the triangle.</li>
 					<li>If the pixel is inside the triangle, we fill the given color into the corresponding position of the sample buffer where the pixel resides. (In Task 1, as we haven't performed super-sampling yet, the size of the frame buffer equals the size of the sample buffer.)</li>
-					<li>Finally, in the resolve_to_framebuffer() function, we directly transfer the colors from the sample buffer to the rgb_framebuffer_target. This allows the colors to be displayed on the screen.</li>
+					<li>Finally, in the <code>resolve_to_framebuffer()</code> function, we directly transfer the colors from the sample buffer to the <b>rgb_framebuffer_target</b>. This allows the colors to be displayed on the screen.</li>
 				  </ul>
 			    <p><b>2. Algorithm Efficiency</b> </p>
 				<p> Since our algorithm does not traverse the whole frame buffer, but just traverse the bounding box of the triangle, our algorithm equals to the one that checks each sample within the bounding box of the triangle.</p>
@@ -33,12 +34,12 @@
 				  <p><b>1. Pixel Sampling</b></p>
 				  <ul>
 					<li>Firstly, given the coordinates of the three vertices of the triangle on the frame buffer and the coordinates of an internal point of the triangle, we can calculate the Barycentric coordinates: alpha, beta, gamma = 1 - alpha - beta. </li>
-					<li>Secondly, knowing the corresponding coordinates of the three vertices of the triangle on the texture, we can utilize the previously calculated alpha, beta, gamma to calculate the coordinates of the internal point of the triangle on the texture using the ... formula. </li>
-					<li>Since the mapping coordinates on the texture may not be integers, we cannot directly obtain the color corresponding to the sample. Hence, we have two methods: sample_nearest() and sample_bilinear() to obtain the color corresponding to the sample. </li>
+					<li>Secondly, knowing the corresponding coordinates of the three vertices of the triangle on the texture, we can utilize the previously calculated \(\alpha\), beta, gamma to calculate the coordinates of the internal point of the triangle on the texture using the ... formula. </li>
+					<li>Since the mapping coordinates on the texture may not be integers, we cannot directly obtain the color corresponding to the sample. Hence, we have two methods: <code>sample_nearest()</code> and <code>sample_bilinear()</code> to obtain the color corresponding to the sample. </li>
 					<li> <b>Two sampling methods</b>
 						<ul>
-							<li>sample_nearest(): This means we will find the nearest vertex on the texture to the sample texture coordinate and assign the color of that vertex to our sample.</li>
-							<li>sample_bilinear(): This means we will find the four nearest vertices on the texture to the sample texture coordinate and use trilinear interpolation to calculate the color of the sample.</li>
+							<li><code>sample_nearest()</code>: This means we will find the nearest vertex on the texture to the sample texture coordinate and assign the color of that vertex to our sample.</li>
+							<li><code>sample_bilinear()</code>: This means we will find the four nearest vertices on the texture to the sample texture coordinate and use trilinear interpolation to calculate the color of the sample.</li>
 						</ul>
 					</li>
 				  </ul>
