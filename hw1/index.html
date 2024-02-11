@@ -7,6 +7,24 @@
 		
 	</head>
 	<body>
-		<h1> CS184 HW1: Rasterizer </h1>
+		<h1><b> CS184 HW1: Rasterizer</b> </h1>
+			<h2> <b>Task 1 </b></h2>
+				<p><b>1. Walk through </b></p>
+				<p> To determine whether each pixel on the frame buffer is inside a given triangle:</p>
+				<ul>
+					<li>First, because the entire frame buffer is too large, traversing it entirely is too slow. Therefore, we start by calculating the bounding box for each of the three triangles using their vertices. 
+						Then, we check each pixel within the bounding box. We approximate the coordinates of the bounding box boundaries to integers using the floor function for easier traversal of pixels. Additionally, 
+						we consider the coordinates of each pixel's midpoint as the coordinates to be evaluated within the function to determine whether the pixel is inside the triangle.</li>
+					<li>Next, we determine whether the vertices of the given triangle are in clockwise or counterclockwise order. We achieve this by calculating the cross product of vectors AB and AC, where A, B, and C represent the vertices of the triangle. 
+						If the cross product is negative, it indicates a clockwise order; otherwise, it indicates a counterclockwise order.</li>
+					<li>Furthermore, we use the three-line test. If the vertices are in clockwise order, the result of the three-line test should be negative for the pixel to be inside the triangle. 
+						Conversely, if the vertices are in counterclockwise order, the result of the three-line test should be positive for the pixel to be inside the triangle.</li>
+					<li>If the pixel is inside the triangle, we fill the given color into the corresponding position of the sample buffer where the pixel resides. (In Task 1, as we haven't performed super-sampling yet, the size of the frame buffer equals the size of the sample buffer.)</li>
+					<li>Finally, in the resolve_to_framebuffer() function, we directly transfer the colors from the sample buffer to the rgb_framebuffer_target. This allows the colors to be displayed on the screen.</li>
+				  </ul>
+			    <p><b>2. Algorithm Efficiency</b> </p>
+				<p> Since our algorithm does not traverse the whole frame buffer, but just traverse the bounding box of the triangle, our algorithm equals to the one that checks each sample within the bounding box of the triangle.</p>
+				<p> 3. Image Gallery: Rasterize triangle without supersampling</p>
+				
 	</body>
 </html>
