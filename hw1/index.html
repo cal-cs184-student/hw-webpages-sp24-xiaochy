@@ -98,7 +98,7 @@
 		each pixel in the screen space into several samples, then downsample back by averaging the values of the samples.
 		This helps us to make smoother edges of triangles, reduing aliasing errors.
 	<ul>
-		<li>To implement supersampling, we first resize the frame_buffer to store extra samples inside each pixel. In task 1, 
+		<li>To implement supersampling, we first resize the sample_buffer to store extra samples inside each pixel. In task 1, 
 			sample_buffer has the same size as frame_buffer. For task 2, we have width * height pixels and sample_rate samples 
 			inside each pixel, which requires <code>sample_buffer</code>'s size of <code>(width * height * sample_rate)</code>.</li>
 		<li>Another change, compared with task 1, is to estiate each pixel's value by averaging the value of samples within 
@@ -267,7 +267,21 @@ Below decribes how to implement it to perform texture sampling.
     </li>
 
 <h3 align="middle">Part 6: "Level sampling" with mipmaps for texture mapping</h3>
-<p> <b>1. Pixel Sampling, Level Samping and Supersampling</b></p>
+<p> <b>1. Level Sampling and Its Implementation </b></p>
+<p>a. Level Sampling </p>
+<p>Level sampling is employed to enhance texture mapping and minimize antialiasing artifacts. By mipmapping at suitable levels, a lower-resolution image is generated. The continuous positive nature of the level allows for two estimation approaches: selecting the nearest integer level or performing linear interpolation between two levels. The latter provides a smoother transition between levels and can mitigate certain artifacts associated with abrupt level changes.</p>
+<p>b. Implementation Details</p>
+<ul>
+  <li>Firstly, we use the same method described in Task 5 to calculate the texture coordinate of the sample <b>(x,y)</b> and 
+  its neighbours <b>(x+1,y), (x,y+1)</b>, from which we get <b>(u,v), (u_dx,v_dx), (u_dy,v_dy)</b>. </li>
+  <li>Secondly, we calculate <b>\(\frac{du}{dx}\),\(\frac{dv}{dx}\),\(\frac{du}{dy}\),\(\frac{du}{dy}\)</b>by 
+  <b>u-u_dx, v-v_dx, u-u_dy, v-v_dy</b>. After that, we can use <b>\(L = \max{\sqrt{{\frac{du}{dx}}^2 + {\frac{dv}{dx}}^2}, \sqrt{{\frac{du}{dy}}^2 + {\frac{dv}{dy}}^2}}\) </b> and
+<b>\(D = \log_2L\)</b> to calculate the mipmap level D.</li>
+<li>Thirdly, since we have three level sampling methods: <b>L_ZERO, L_NEAREST, L_LINEAR</b>, we implement them in 
+<code>Texture::sample()</code>. For <b>L_ZERO</b>, we just use the zero-level mipmap's color; For <b>L_NEAREST</b>, we use the integer nearest to D as the mipmap level and get the color from this mipmap;
+For <b>L_LINEAR</b>, we use linear interpolation between the colors of two mipmap levels around D as the sample color.</li>
+</ul>
+<p> <b>2. Pixel Sampling, Level Samping and Supersampling</b></p>
 <p>a. Speed</p>
 <ul>
   <li> Pixel Sampling samples one point inside each pixel, which means we only need to obtain the color
@@ -303,7 +317,7 @@ Below decribes how to implement it to perform texture sampling.
   </li>
 </ul>
 
-<p> <b>2. Comparison between different methods</b></p>
+<p> <b>3. Comparison between different methods</b></p>
 <div align="middle">
   <table style="width=100%">
     <tr>
