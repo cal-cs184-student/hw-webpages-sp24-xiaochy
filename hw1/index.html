@@ -272,10 +272,10 @@ Below decribes how to implement it to perform texture sampling.
 <p>Level sampling is employed to enhance texture mapping and minimize antialiasing artifacts. By mipmapping at suitable levels, a lower-resolution image is generated. The continuous positive nature of the level allows for two estimation approaches: selecting the nearest integer level or performing linear interpolation between two levels. The latter provides a smoother transition between levels and can mitigate certain artifacts associated with abrupt level changes.</p>
 <p>b. Implementation Details</p>
 <ul>
-  <li>Firstly, we use the same method described in Task 5 to calculate the texture coordinate of the sample <b>(x,y)</b> and 
-  its neighbours <b>(x+1,y), (x,y+1)</b>, from which we get <b>(u,v), (u_dx,v_dx), (u_dy,v_dy)</b>. </li>
+  <li>Firstly, we use the same method described in Task 5 to calculate the texture coordinate of the sample <b>\((x,y)\)</b> and 
+  its neighbours <b>\((x+1,y), (x,y+1)\)</b>, from which we get <b>\((u,v), (u_dx,v_dx), (u_dy,v_dy)\)</b>. </li>
   <li>Secondly, we calculate <b>\(\frac{du}{dx}\),\(\frac{dv}{dx}\),\(\frac{du}{dy}\),\(\frac{du}{dy}\)</b>by 
-  <b>u-u_dx, v-v_dx, u-u_dy, v-v_dy</b>. After that, we can use <b>\(L = \max{\sqrt{{\frac{du}{dx}}^2 + {\frac{dv}{dx}}^2}, \sqrt{{\frac{du}{dy}}^2 + {\frac{dv}{dy}}^2}}\) </b> and
+  <b>\(u-u_dx, v-v_dx, u-u_dy, v-v_dy\)</b>. After that, we can use <b>\(L = \max{(\sqrt{({\frac{du}{dx}})^2 + ({\frac{dv}{dx}})^2}, \sqrt{({\frac{du}{dy}})^2 + ({\frac{dv}{dy}})^2})}\) </b> and
 <b>\(D = \log_2L\)</b> to calculate the mipmap level D.</li>
 <li>Thirdly, since we have three level sampling methods: <b>L_ZERO, L_NEAREST, L_LINEAR</b>, we implement them in 
 <code>Texture::sample()</code>. For <b>L_ZERO</b>, we just use the zero-level mipmap's color; For <b>L_NEAREST</b>, we use the integer nearest to D as the mipmap level and get the color from this mipmap;
