@@ -53,10 +53,93 @@
 	<p> <b>3. Image Gallery</b></p>
 	<figcaption><b>Rasterize triangle without supersampling</b></figcaption>
 	<img src="image_1.png" alt="Rasterize triangle without supersampling">
+
+	<h2> <b>Task 2</b></h2>
+	<p> <b>1. Importance and Implementation</b></p>
+	<p>As described in lecture, supersampling is an effective antialiasing approach. The basic idea is to render the 
+		each pixel in the screen space into several samples, then downsample back by averaging the values of the samples.
+		This helps us to make smoother edges of triangles, reduing aliasing errors.
+	<ul>
+		<li>To implement supersampling, we first resize the frame_buffer to store extra samples inside each pixel. In task 1, 
+			sample_buffer has the same size as frame_buffer. For task 2, we have width * height pixels and sample_rate samples 
+			inside each pixel, which requires <code>sample_buffer</code>'s size of <code>(width * height * sample_rate)</code>.</li>
+		<li>Another change, compared with task 1, is to estiate each pixel's value by averaging the value of samples within 
+			the pixel. We compute the average and write each pixel's value into <code>resolve_to_framebuffer</code>.</li></ul>
+	<p> <b>2. Results</b></p>
+	<style>	
+		figure {
+			border: 1px #cccccc solid;
+			padding: 4px;
+			margin: auto;
+		}
+		figcaption {
+			/* background-color: black; */
+			/* color: white; */
+			font-style: italic;
+			padding: 2px;
+			text-align: center;
+		}
+		.column {
+			float: left;
+			width: 30%;
+			padding: 5px;
+		}
+		.row::after {
+			content: "";
+			clear: both;
+			display: table;
+		}
+	</style>
+	<div class="row">
+		<div class="column">
+			<img src="task2_rate1.png" alt="Sample rate = 1" style="width:100%">
+			<figcaption>sample rate = 1</figcaption>
+		</div>
+		<div class="column">
+			<img src="task2_rate4.png" alt="Sample rate = 4" style="width:100%">
+			<figcaption>sample rate = 4</figcaption>
+		</div>
+		<div class="column">
+			<img src="task2_rate16.png" alt="Sample rate = 16" style="width:100%">
+			<figcaption>sample rate = 16</figcaption>
+		</div>	
+	</div>
+	In the images provided above, the impact of sample rate on edge smoothness is evident. At a sample rate of 1, discernible 
+	jaggies are observed, attributed to marking each pixel inside the triangle with the same color. However, as the sampling 
+	rate increases, we sample multiple locations within each pixel, subsequently averaging their values. This results in a 
+	noticeable improvement, particularly along the edges, where pixels are no longer assigned uniform values. Instead, they 
+	exhibit a smoother and blurrier appearance.
+
+			  
 	<h2> <b>Task 3</b></h2>
 	<p>I tried to make the robot cheer up by doing the rotation to his arms and legs. </p>
 	<figcaption><b>cheer-up robot</b></figcaption>
 	<img src="image_2.png" alt="cheer-up robot">
+	
+	<h2> <b>Task 4</b></h2>
+	<p> <b>1. Illustration of Barycentric Coordinates</b></p>
+	<svg xmlns="http://www.w3.org/2000/svg" width="200" height="200">
+
+		<!-- Define a linear gradient -->
+		<defs>
+		  <linearGradient id="gradient" x1="0%" y1="0%" x2="100%" y2="100%">
+			<stop offset="0%" style="stop-color: red; stop-opacity: 1" />
+			<stop offset="50%" style="stop-color: green; stop-opacity: 1" />
+			<stop offset="100%" style="stop-color: blue; stop-opacity: 1" />
+		  </linearGradient>
+		</defs>
+	
+		<!-- Create an equilateral triangle with the blended gradient -->
+		<polygon points="100,10 10,190 190,190" style="fill: url(#gradient);" />
+	
+	</svg>
+	<p>The plot above illustrates the functioning of barycentric coordinates. Assigning red, green, 
+		and blue to the three vertices of the triangle respectively, the colors inside the triangle 
+		result from a blend of these vertex colors. The color at each sample point is calculated 
+		based on its barycentric coordinate: \(C_p = \alpha C_A + \beta C_B + \gamma C_C \). \(\alpha,
+		\beta, \gamma\) are obtained based on the proportional distances, and they linearly interpolate
+		values at vertices.</p>
+
 	<h2> <b>Task 5 </b></h2>
 	<p><b>1. Pixel Sampling</b></p>
 	<ul>
