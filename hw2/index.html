@@ -57,7 +57,7 @@
 
 	<h1 align="middle">CS 184: Computer Graphics and Imaging, Spring 2018</h1>
 	<h1 align="middle">Project 2: Mesh Edit</h1>
-	<h2 align="middle">YOUR NAME</h2>
+	<h2 align="middle">Claire Fang</h2>
 
 	<br><br>
 
@@ -65,7 +65,11 @@
 
 		<h2 align="middle">Overview</h2>
 		<p>
-			YOUR RESPONSE GOES HERE
+			In this assignment, we delve into the geometric modeling concepts introduced in lectures. We engage in various tasks, 
+			including the construction of Bezier curves and surfaces using the de Casteljau algorithm, manipulating triangle meshes
+			represented through a half-edge data structure, and implementing edge flip, edge split and loop subdivision.
+
+
 		</p>
 		<br>
 
@@ -332,7 +336,7 @@
 				<li>
 					In the basic case with two adjacent triangles sharing one edge and two vertices, we need to add three more edges: $e_1$, $e_2$, and $e_3$. 
 					Combined with the original edge $e_0$, they become the four inner edges that split the two traingles into four. Also, we need to initialize 
-					<code>isNew</code> value of the new edges. For $e_2$ and $e_3$, we set <code>isNew = true</code> because they are edges that doesn't exist 
+					<code>isNew</code> value of the new edges. For $e_2$ and $e_3$, we initialize <code>isNew = true</code> because they are edges that do not exist 
 					in the mesh before. However, for $e_0$ and $e_1$, we set <code>isNew = false</code>, since they overlap with the original edge.
 				</li>
 				<li>	
@@ -425,7 +429,7 @@
 		<p>
 			<ul>
 				<li>
-					The first step is to set <code>isNew = false</code> for all edges and vertices of the mesh. This would avoid splitting 
+					The first step is to set <code>isNew = false</code> for all edges and vertices in the mesh. This would avoid splitting 
 					and flipping wrong edges when we keep upsampling.
 				</li>
 				<li>
@@ -433,11 +437,11 @@
 					values in <br> <code>v->newPosition</code>. 
 				</li>
 				<li>
-					Then, we iterate through all edges <code>e</code>, calculate the positions for all new vertices that we are going to add, and 
+					Then, we go through all edges <code>e</code>, calculate the positions for all new vertices that we are going to add, and 
 					store the position values in <code>e->newPosition</code>.
 				</li>
 				<li>
-					Next, we perform edge split. We iterate through all edges and only split those connecting two old vertices (<code>v->isNew = false</code>) 
+					Next, we perform edge split. We iterate through all edges and only split those connecting two old vertices (<code>v->isNew = false</code>). 
 					At this step, a bunch of new vertices are created. For each newly created v at the midpoint of edge e, we assign <code>e->newPosition</code> 
 					to <code>v->newPosition</code>.
 				</li>
@@ -460,7 +464,7 @@
 		</b>
 		<p>
 			We observe that the sharp corners and edges totally disappear after loop subdivision. Here, the torus
-			with six corners become a smooth circle ring. If we pre-split the edges on the sharp corners, the 
+			with six corners become a smooth circular ring. If we pre-split the edges on the sharp corners, the 
 			mesh somehow preserve its shape.
 		<div align="middle">
 			<table style="width:100%">
