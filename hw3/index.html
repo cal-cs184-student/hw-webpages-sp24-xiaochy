@@ -99,7 +99,7 @@ Show images with normal shading for a few small .dae files. -->
 <p>
     <li>Ray Generation: Transform the normalized image coordinates to the camera space, generate a ray in the camera space and then transform it into a ray in the world space.
       <li>Firstly, since we want to determine color for each pixel on the image. We generate num_samples rays for each pixel. For each pixel.
-        we get its bottom-left coordinate and plus the sample vector \(\in [0,1]x[0,1]\) and then divided it by the image width and height respectively to get the normalized coordinates.
+        we get its bottom-left coordinate and plus the sample vector \(\in [0,1]*[0,1]\) and then divided it by the image width and height respectively to get the normalized coordinates.
      </li>
       <li>Secondly, we transform the normalized image coordinates we get in the image space to the camera ray in the camera space by calculating the distances of x, y coordinates from the center of the camera space.
         And use the formula: \((x_c,y_c,z_c) = (\tan(hFov*(x - 0.5)), tan(vFov*(y - 0.5)), -1)\) with hFov and vFov changed from degree to radian.
@@ -118,9 +118,9 @@ Show images with normal shading for a few small .dae files. -->
 <p>
     <li>Ray-Triangle Intersection:
       We use <b>Moller Trumbore Algorithm</b> to implement ray-triangle intersection.
-      <li>Firstly, we represent ray \(r(t) = O + tD\) and the point in the triangle as \(P = \alphaP0+\betaP1+\gammaP2\), where P0,P1,P2 are the vectors of the triangle. We substitute
+      <li>Firstly, we represent ray \(r(t) = O + tD\) and the point in the triangle as \(P = \alpha P0+\beta P1+\gamma P2\), where P0,P1,P2 are the vectors of the triangle. We substitute
       \(\alpha, \beta, \gamma\) with \((1-b1-b2), b1, b2\). After that, we let the two right sides equal and get a equation \(Mx = b\) where x is (t,b1,b2), which can be solved from this linear equation.
-      If \(t \geq 0 and b1, b2, 1-b1-b2 \in [0,1]\), we say the ray is intersected with the triangle.
+      If \(t \geq 0, b1, b2, 1-b1-b2 \in [0,1]\), we say the ray is intersected with the triangle.
       </li> 
     </li>
 </p>
