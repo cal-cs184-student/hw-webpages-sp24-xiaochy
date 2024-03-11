@@ -378,7 +378,7 @@ You will probably want to use the instructional machines for the above renders i
   <table style="width:100%">
     <tr align="center">
       <td>
-        <img src="hw3\part4_4\bunny_m0_0.png" align="middle" width="400px"/>
+        <img src="./part4_4/bunny_m0_0.png" align="middle" width="400px"/>
         <figcaption>max_ray_depth = 0, isAccumBounces = false (CBbunny.dae)</figcaption>
       </td>
       <td>
@@ -410,7 +410,10 @@ You will probably want to use the instructional machines for the above renders i
 </div>
 <br>
 <p>
-    YOUR EXPLANATION GOES HERE
+  The second bounce lights up the places without light before. And the third bounce helps further improve the details of light reflected in the environment.
+  <li>The second bounce helps to fill in areas of the scene that may not receive direct light, resulting in more realistic and natural-looking images. It enhances the overall lighting distribution and creates a sense of depth and atmosphere.</li>
+  <li>The third bounce helps to smooth out the indirect lighting and reduce noise in the final rendered image, resulting in a higher quality and more visually pleasing result.</li>
+  Compared to rasterization, rather than approximate the indirect illumination, we simulate the real light paths in tracing light, which makes the rendered image more realistic and less noisy.
 </p>
 <br>
 
