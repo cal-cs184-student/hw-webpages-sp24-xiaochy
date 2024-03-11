@@ -322,7 +322,7 @@ You will probably want to use the instructional machines for the above renders i
     If ray depth = 0, we will return zero_bounce_radiance directly.
     <li>In <code>at_least_one_bounce_radiance(const Ray &r,const Intersection &isect)</code>, we also discuss isAccumBounces. If it is true, it will recursively add the direct illumination with the indirect illumination on this intersection, since it needs to calculate all length of bounce paths under the length of max_ray_depth. However, for 
     isAccumBounces = false, we only add the direct illumination once when the ray achieves its max_ray_depth, which means we only calculate the ray with lenght exactly equals max_ray_depth.</li>
-    <li>In order to decrease bias of the force termination. We implement Russian Roulette, which provides us an unbiased method of random termination. We use coin_flip to approximate the termination probability = 0.65. If coin_flip \(\geq\) 0.65, the ray tracing will terminate.</li>
+    <li>In order to decrease bias of the force termination and reduce the rendering time. We implement Russian Roulette, which provides us an unbiased method of random termination. We use coin_flip to approximate the termination probability = 0.65. If coin_flip \(\geq\) 0.65, the ray tracing will terminate.</li>
 </p>
 <br>
 
@@ -382,7 +382,7 @@ You will probably want to use the instructional machines for the above renders i
         <figcaption>max_ray_depth = 0, isAccumBounces = false (CBbunny.dae)</figcaption>
       </td>
       <td>
-        <img src="hw3\part4_4\bunny_m1_0.png" align="middle" width="400px"/>
+        <img src=".\part4_4\bunny_m1_0.png" align="middle" width="400px"/>
         <figcaption>max_ray_depth = 1, isAccumBounces = false (CBbunny.dae)</figcaption>
       </td>
     </tr>
@@ -457,7 +457,7 @@ You will probably want to use the instructional machines for the above renders i
 </div>
 <br>
 <p>
-    YOUR EXPLANATION GOES HERE
+    We can see that after the second bounce, the image looks good already. The higher bounces help further refine the details of shadowing, which makes the image even more realistic. And with the higher bounces added on, the image becomes brighter and brighter.
 </p>
 <br>
 
@@ -501,7 +501,7 @@ You will probably want to use the instructional machines for the above renders i
 </div>
 <br>
 <p>
-    YOUR EXPLANATION GOES HERE
+    The rendered images with Russian Roulette are similar to those without this technique. However, the rendering time reduces.
 </p>
 <br>
 
@@ -551,7 +551,7 @@ You will probably want to use the instructional machines for the above renders i
 </div>
 <br>
 <p>
-    YOUR EXPLANATION GOES HERE
+    With the number of samples per pixel increasing, the rendered image becomes less and less noisy.
 </p>
 <br>
 
