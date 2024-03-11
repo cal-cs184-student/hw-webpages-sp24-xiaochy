@@ -39,9 +39,9 @@
 
 <body>
 
-<h1 align="middle">CS 184: Computer Graphics and Imaging, Spring 2023</h1>
+<h1 align="middle">CS 184: Computer Graphics and Imaging, Spring 2024</h1>
 <h1 align="middle">Project 3-1: Path Tracer</h1>
-<h2 align="middle">YOUR NAME(S)</h2>
+<h2 align="middle">Chuyang Xiao, Claire Fang</h2>
 
 <!-- Add Website URL -->
 <h2 align="middle">Website URL: <a href="TODO">TODO</a></h2>
@@ -134,21 +134,21 @@ Show images with normal shading for a few small .dae files. -->
   <table style="width:100%">
     <tr align="center">
       <td>
-        <img src="images/your_file.png" align="middle" width="400px"/>
+        <img src="hw3\part1\banana.png" align="middle" width="400px"/>
         <figcaption>example1.dae</figcaption>
       </td>
       <td>
-        <img src="images/your_file.png" align="middle" width="400px"/>
+        <img src="hw3\part1\CBempty.png" align="middle" width="400px"/>
         <figcaption>example2.dae</figcaption>
       </td>
     </tr>
     <tr align="center">
       <td>
-        <img src="images/your_file.png" align="middle" width="400px"/>
+        <img src="hw3\part1\cow.png" align="middle" width="400px"/>
         <figcaption>example3.dae</figcaption>
       </td>
       <td>
-        <img src="images/your_file.png" align="middle" width="400px"/>
+        <img src="hw3\part1\teapot.png" align="middle" width="400px"/>
         <figcaption>example4.dae</figcaption>
       </td>
     </tr>
@@ -334,12 +334,12 @@ You will probably want to use the instructional machines for the above renders i
   <table style="width:100%">
     <tr align="center">
       <td>
-        <img src="images/your_file.png" align="middle" width="400px"/>
-        <figcaption>example1.dae</figcaption>
+        <img src="hw3\part4_2\lucy.png" align="middle" width="400px"/>
+        <figcaption>CBlucy.dae with global illumination</figcaption>
       </td>
       <td>
-        <img src="images/your_file.png" align="middle" width="400px"/>
-        <figcaption>example2.dae</figcaption>
+        <img src="hw3\part4_2\gems.png" align="middle" width="400px"/>
+        <figcaption>CBgems.dae with global illumination</figcaption>
       </td>
     </tr>
   </table>
@@ -354,12 +354,56 @@ You will probably want to use the instructional machines for the above renders i
   <table style="width:100%">
     <tr align="center">
       <td>
-        <img src="images/your_file.png" align="middle" width="400px"/>
-        <figcaption>Only direct illumination (example1.dae)</figcaption>
+        <img src="hw3\part4_3\CBbunny_direct.png" align="middle" width="400px"/>
+        <figcaption>Only direct illumination (CBbunny.dae)</figcaption>
       </td>
       <td>
-        <img src="images/your_file.png" align="middle" width="400px"/>
-        <figcaption>Only indirect illumination (example1.dae)</figcaption>
+        <img src="hw3\part4_3\CBbunny_indirect.png" align="middle" width="400px"/>
+        <figcaption>Only indirect illumination (CBbunny.dae)</figcaption>
+      </td>
+    </tr>
+  </table>
+</div>
+<br>
+<p>
+    YOUR EXPLANATION GOES HERE
+</p>
+<br>
+
+<h3>
+  For CBbunny.dae, render the mth bounce of light with max_ray_depth set to 0, 1, 2, 3, 4, and 5 (the -m flag), and isAccumBounces=false. Explain in your writeup what you see for the 2nd and 3rd bounce of light, and how it contributes to the quality of the rendered image compared to rasterization. Use 1024 samples per pixel.
+</h3>
+<!-- Example of including multiple figures -->
+<div align="middle">
+  <table style="width:100%">
+    <tr align="center">
+      <td>
+        <img src="hw3\part4_4\bunny_m0_0.png" align="middle" width="400px"/>
+        <figcaption>max_ray_depth = 0, isAccumBounces = false (CBbunny.dae)</figcaption>
+      </td>
+      <td>
+        <img src="hw3\part4_4\bunny_m1_0.png" align="middle" width="400px"/>
+        <figcaption>max_ray_depth = 1, isAccumBounces = false (CBbunny.dae)</figcaption>
+      </td>
+    </tr>
+    <tr align="center">
+      <td>
+        <img src="hw3\part4_4\bunny_m2_0.png" align="middle" width="400px"/>
+        <figcaption>max_ray_depth = 2, isAccumBounces = false (CBbunny.dae)</figcaption>
+      </td>
+      <td>
+        <img src="hw3\part4_4\bunny_m3_0.png" align="middle" width="400px"/>
+        <figcaption>max_ray_depth = 3, isAccumBounces = false (CBbunny.dae)</figcaption>
+      </td>
+    </tr>
+    <tr align="center">
+      <td>
+        <img src="hw3\part4_4\bunny_m4_0.png" align="middle" width="400px"/>
+        <figcaption>max_ray_depth = 4, isAccumBounces = false (CBbunny.dae)</figcaption>
+      </td>
+      <td>
+        <img src="hw3\part4_4\bunny_m5_0.png" align="middle" width="400px"/>
+        <figcaption>max_ray_depth = 5, isAccumBounces = false (CBbunny.dae)</figcaption>
       </td>
     </tr>
   </table>
