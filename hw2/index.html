@@ -55,9 +55,9 @@
 
 <body>
 
-	<h1 align="middle">CS 184: Computer Graphics and Imaging, Spring 2018</h1>
+	<h1 align="middle">CS 184: Computer Graphics and Imaging, Spring 2024</h1>
 	<h1 align="middle">Project 2: Mesh Edit</h1>
-	<h2 align="middle">YOUR NAME</h2>
+	<h2 align="middle">Chuyang Xiao, Claire Fang</h2>
 
 	<br><br>
 
@@ -65,7 +65,11 @@
 
 		<h2 align="middle">Overview</h2>
 		<p>
-			YOUR RESPONSE GOES HERE
+			In this assignment, we delve into the geometric modeling concepts introduced in lectures. We engage in various tasks, 
+			including the construction of Bezier curves and surfaces using the de Casteljau algorithm, manipulating triangle meshes
+			represented through a half-edge data structure, and implementing edge flip, edge split and loop subdivision.
+
+
 		</p>
 		<br>
 
@@ -79,21 +83,22 @@
 			Briefly explain de Casteljau's algorithm and how you implemented it in order to evaluate Bezier curves.
 		</b>
 		<p>
-			YOUR RESPONSE GOES HERE
+			The de Casteljau's algorithm is a way we used to evaluate the Bezier cruves. It starts with a few control points
+			and provides a pyramid of coefficients by doing linear interpolation between adjacent points at each level. We implement 
+			<code>BezierCurve::evaluateStep(...)</code> to perform the algorithm. The function doesnt't give the final coefficients 
+			right away. Instead, it evaluates the coefficients at each step. We loop through all control points at the current step, 
+			perform linear interpolation between adjacent points, and return a list of coefficients at this step.
 		</p>
 		<br>
-
-
 		<b>
 			Take a look at the provided .bzc files and create your own Bezier curve with 6 control points of your
 			choosing. Use this Bezier curve for your screenshots below.
 		</b>
 		<p>
-			YOUR RESPONSE GOES HERE
 		</p>
 		<!-- Example of including a single figure -->
 		<div align="middle">
-			<img src="images/your_file.png" align="middle" width="50%">
+			<img src="images/part1.2.pic.jpg" align="middle" width="50%">
 		</div>
 		<br>
 
@@ -107,30 +112,34 @@
 			<table style="width:100%">
 				<tr align="center">
 					<td>
-						<img src="images/your_file.png" align="middle" width="400px" />
-						<figcaption>Level 0</figcaption>
-					</td>
-					<td>
-						<img src="images/your_file.png" align="middle" width="400px" />
+						<img src="images/part1_level1.pic.jpg" align="middle" width="400px" />
 						<figcaption>Level 1</figcaption>
 					</td>
-				</tr>
-				<br>
-				<tr align="center">
 					<td>
-						<img src="images/your_file.png" align="middle" width="400px" />
+						<img src="images/part1_level2.pic.jpg" align="middle" width="400px" />
 						<figcaption>Level 2</figcaption>
 					</td>
+				</tr>
+				<br>
+				<tr align="center">
 					<td>
-						<img src="images/your_file.png" align="middle" width="400px" />
+						<img src="images/part1_level3.pic.jpg" align="middle" width="400px" />
 						<figcaption>Level 3</figcaption>
+					</td>
+					<td>
+						<img src="images/part1_level4.pic.jpg" align="middle" width="400px" />
+						<figcaption>Level 4</figcaption>
 					</td>
 				</tr>
 				<br>
 				<tr align="center">
 					<td>
-						<img src="images/your_file.png" align="middle" width="400px" />
-						<figcaption>Level 4</figcaption>
+						<img src="images/part1_level5.pic.jpg" align="middle" width="400px" />
+						<figcaption>Level 5</figcaption>
+					</td>
+					<td>
+						<img src="images/part1_level6.pic.jpg" align="middle" width="400px" />
+						<figcaption>Level 6</figcaption>
 					</td>
 				</tr>
 			</table>
@@ -143,7 +152,20 @@
 			modifying the parameter \(t\) via mouse scrolling.
 		</b>
 		<p>
-			YOUR RESPONSE GOES HERE
+			<div align="middle">
+				<table style="width:100%">
+					<tr align="center">
+						<td>
+							<img src="images/part1.4_change_t.pic.jpg" align="middle" width="400px" />
+							<figcaption>Change t</figcaption>
+						</td>
+						<td>
+							<img src="images/part1.4_change_pts.pic.jpg" align="middle" width="400px" />
+							<figcaption>Move the control points</figcaption>
+						</td>
+					</tr>
+				</table>
+			</div>
 		</p>
 		<br>
 
@@ -154,16 +176,29 @@
 			evaluate Bezier surfaces.
 		</b>
 		<p>
-			YOUR RESPONSE GOES HERE
+			We can extend the de Casteljau algorithm to 3D surfces, simply by applying the algorithm separately in u-direction and 
+			v direction. Below is a step-by-step instruction.
+			<ul>
+				<li>
+					To evaluate our Bazier surface, we first implement <code>BezierPatch::evaluate1D(...)</code>, which evaluates the final 
+					coefficient on the top of the pyramid in u-direction in 1D.
+				</li>
+				<li>
+					Next, we implement <code>BezierPatch::evaluate(...)</code>. This function calls <code>BezierPatch::evaluate1D(...)</code>
+					at each iteration step to evaluate one "moving curve" in u-direction. Using this 1D "moving" curves, we evaluate the surface
+					in v-direction.
+				</li>
+			</ul>
 		</p>
 		<br>
-
 
 		<b>
 			Show a screenshot of bez/teapot.bez (not .dae) evaluated by your implementation.
 		</b>
 		<p>
-			YOUR RESPONSE GOES HERE
+			<div align="middle">
+				<img src="images/part2.jpg" align="middle" width="50%">
+			</div>
 		</p>
 		<br>
 
@@ -294,34 +329,84 @@
 			debugging tricks you have used.
 		</b>
 		<p>
-			
+			Unlike the edge flip operation, the edge split operation involves dividing the input edge at the midpoint and connect 
+			the two unshared vertices in the two adjacent triangles, which requires creating new edges, halfedges, faces, and the 
+			midpoint vertex. 
+			<ul>
+				<li>
+					In the basic case with two adjacent triangles sharing one edge and two vertices, we need to add three more edges: $e_1$, $e_2$, and $e_3$. 
+					Combined with the original edge $e_0$, they become the four inner edges that split the two traingles into four. Also, we need to initialize 
+					<code>isNew</code> value of the new edges. For $e_2$ and $e_3$, we initialize <code>isNew = true</code> because they are edges that do not exist 
+					in the mesh before. However, for $e_0$ and $e_1$, we set <code>isNew = false</code>, since they overlap with the original edge.
+				</li>
+				<li>	
+					We also need to add two halfedges for each of the newly created edge. For $e_0$, its halfedges already exist, so we do nothing for now.
+					For $e_1$, $e_2$, and $e_3$, we create in total six halfedges, two for each pointing into opposite directions.
+				</li>
+				<li>
+					Now we have four triangles, meaning that we have four faces. Thus, we need to add two more faces.
+				</li>
+				<li>
+					Lastly, we add a new vertex m at the midpoint of $e_0$. Its position would be the average position of the vertices at the two ends of $e_0$.
+				</li>
+			</ul>
+			Once these items are added, it's crucial to reassign pointers for all elements within the original two triangles, encompassing 
+			both the newly created ones and the existing ones—even if they are not directly updated in this particular step. A useful debugging 
+			approach involves checking for any elements that haven't had their values reassigned to ensure the completeness of the reassignment process.
 		</p>
 		<br>
-
-
-		<b>
-			Show screenshots of a mesh before and after some edge splits.
-		</b>
-		<p>
-			YOUR RESPONSE GOES HERE
-		</p>
-		<br>
-
 
 		<b>
 			Show screenshots of a mesh before and after a combination of both edge splits and edge flips.
 		</b>
 		<p>
-			YOUR RESPONSE GOES HERE
-		</p>
+			<div align="middle">
+				<table style="width:100%">
+					<tr align="center">
+						<td>
+							<img src="images/part5.2.pic.jpg" align="middle" width="300px" />
+							<figcaption>Before splitting</figcaption>
+						</td>
+						<td>
+							<img src="images/part5.2_split1.pic.jpg" align="middle" width="300px" />
+							<figcaption>Split one edge</figcaption>
+						</td>
+						<td>
+							<img src="images/part5.2_split2.pic.jpg" align="middle" width="300px" />
+							<figcaption>Split multiple edges</figcaption>
+						</td>
+					</tr>
+				</table>
+			</div>
 		<br>
-
-
+		<b>
+			Show screenshots of a mesh before and after a combination of both edge splits and edge flips.
+		</b>
+		<p>
+			<div align="middle">
+				<table style="width:100%">
+					<tr align="center">
+						<td>
+							<img src="images/part5.3.pic.jpg" align="middle" width="400px" />
+							<figcaption>Before splitting and flipping</figcaption>
+						</td>
+						<td>
+							<img src="images/part5.3_splitflip.pic.jpg" align="middle" width="400px" />
+							<figcaption>Split and flip multiple edges</figcaption>
+						</td>
+					</tr>
+				</table>
+			</div>
+		</p>
+	
 		<b>
 			Write about your eventful debugging journey, if you have experienced one.
 		</b>
 		<p>
-			YOUR RESPONSE GOES HERE
+			Initially, our operation functioned correctly, but it started causing a segmentation fault when we attempted 
+			to split a large number of edges. We eventually realized that updating the halfedges within the "boundary" (not the boundary of the mesh) of the 
+			two original triangles wasn't sufficient. We also needed to handle their twins—the halfedges outside the "boundary"—to 
+			resolve the segmentation fault issue.
 		</p>
 		<br>
 
@@ -342,7 +427,32 @@
 			debugging tricks you have used.
 		</b>
 		<p>
-			YOUR RESPONSE GOES HERE
+			<ul>
+				<li>
+					The first step is to set <code>isNew = false</code> for all edges and vertices in the mesh. This would avoid splitting 
+					and flipping wrong edges when we keep upsampling.
+				</li>
+				<li>
+					The next step is to iterate through all vertices <code>v</code> and calculate the new positions for them. We store these 
+					values in <br> <code>v->newPosition</code>. 
+				</li>
+				<li>
+					Then, we go through all edges <code>e</code>, calculate the positions for all new vertices that we are going to add, and 
+					store the position values in <code>e->newPosition</code>.
+				</li>
+				<li>
+					Next, we perform edge split. We iterate through all edges and only split those connecting two old vertices (<code>v->isNew = false</code>). 
+					At this step, a bunch of new vertices are created. For each newly created v at the midpoint of edge e, we assign <code>e->newPosition</code> 
+					to <code>v->newPosition</code>.
+				</li>
+				<li>
+					After splitting edges, we flip all new edges (<code>e->isNew = true</code>) that connecting exactly one old vertex and one new vertex
+					<br>(<code>v1->isNew + v2->isNew == 1</code>).
+				</li>
+				<li>
+					Finally, we copy <code>v->newPosition</code> to <code>v->position</code> for every vertex v currently in the mesh.
+				</li>
+			</ul>
 		</p>
 		<br>
 
@@ -353,7 +463,34 @@
 			edges?
 		</b>
 		<p>
-			YOUR RESPONSE GOES HERE
+			We observe that the sharp corners and edges totally disappear after loop subdivision. Here, the torus
+			with six corners become a smooth circular ring. If we pre-split the edges on the sharp corners, the 
+			mesh somehow preserve its shape.
+		<div align="middle">
+			<table style="width:100%">
+				<tr align="center">
+					<td>
+						<img src="images/part6.2.2.pic.jpg" align="middle" width="400px" />
+						<figcaption>Without pre-splitting</figcaption>
+					</td>
+					<td>
+						<img src="images/part6.2.1.pic.jpg" align="middle" width="400px" />
+						<figcaption>Loop subdivision without pre-splitting</figcaption>
+					</td>
+				</tr>
+				<tr align="center">
+					<td>
+						<img src="images/part6.2.3.pic.jpg" align="middle" width="400px" />
+						<figcaption>With pre-splitting</figcaption>
+					</td>
+					<td>
+						<img src="images/part6.2.4.pic.jpg" align="middle" width="400px" />
+						<figcaption>Loop subdivision with pre-splitting</figcaption>
+					</td>
+				</tr>
+			</table>
+		</div>
+	
 		</p>
 		<br>
 
@@ -365,7 +502,40 @@
 			your pre-processing helps alleviate the effects.
 		</b>
 		<p>
-			YOUR RESPONSE GOES HERE
+			The strange asymmetry observed during cube subdivision is, in fact, an inherent outcome of the mesh's triangulation. 
+			It's noteworthy that the underlying geometry divides each face along a single diagonal, resulting in a specific orientation 
+			for the initial triangles. Consequently, as these triangles undergo subdivision, the new triangles maintain the same orientation 
+			as the original ones. Thus, the asymmetry is established during the initial round of subdivision and preserves as we continue upsampling.
+			<div align="middle">
+				<table style="width:100%">
+					<tr align="center">
+						<td>
+							<img src="images/part6.3.1.pic.jpg" align="middle" width="400px" />
+							<figcaption>Without pre-splitting</figcaption>
+						</td>
+						<td>
+							<img src="images/part6.3.2.pic.jpg" align="middle" width="400px" />
+							<figcaption>Loop subdivision without pre-splitting</figcaption>
+						</td>
+					</tr>
+				</table>
+			</div>
+			To address this issue, we simply pre-split all diagonal edges. As a result, we now have triangles in different orientations, 
+			contributing to preserve the symmetry.
+			<div align="middle">
+				<table style="width:100%">
+					<tr align="center">
+						<td>
+							<img src="images/part6.3.3.pic.jpg" align="middle" width="400px" />
+							<figcaption>With pre-splitting</figcaption>
+						</td>
+						<td>
+							<img src="images/part6.3.4.pic.jpg" align="middle" width="400px" />
+							<figcaption>Loop subdivision with pre-splitting</figcaption>
+						</td>
+					</tr>
+				</table>
+			</div>
 		</p>
 		<br>
 
