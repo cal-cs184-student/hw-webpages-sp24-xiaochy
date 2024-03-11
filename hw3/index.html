@@ -316,7 +316,13 @@ You will probably want to use the instructional machines for the above renders i
   Walk through your implementation of the indirect lighting function.
 </h3>
 <p>
-    YOUR RESPONSE GOES HERE
+    <li>Firstly, when generating ray from pixels in <code>raytrace_pixel(size_t x, size_t y)</code>, we set the depth of each ray as max_ray_depth.</li>
+    <li>Secondly, in <code>raytrace_pixel(size_t x, size_t y)</code>, we will call <code>est_radiance_global_illumination(const Ray &r)</code> for each sample ray to calculate its radiance on this pixel.</li>
+    And in <code>est_radiance_global_illumination(const Ray &r)</code>, we discuss two cases: isAccumBounces = true and isAccumBounces = false. If true, we will return <code>zero_bounce_radiance(r, isect) + at_least_one_bounce_radiance(r, isect)</code>. Otherwise, we will just return <code>at_least_one_bounce_radiance(r, isect)</code>. 
+    If ray depth = 0, we will return zero_bounce_radiance directly.
+    <li>In <code>at_least_one_bounce_radiance(const Ray &r,const Intersection &isect)</code>, we also discuss isAccumBounces. If it is true, it will recursively add the direct illumination with the indirect illumination on this intersection, since it needs to calculate all length of bounce paths under the length of max_ray_depth. However, for 
+    isAccumBounces = false, we only add the direct illumination once when the ray achieves its max_ray_depth, which means we only calculate the ray with lenght exactly equals max_ray_depth.</li>
+    <li>In order to decrease bias of the force termination. We implement Russian Roulette, which provides us an unbiased method of random termination. We use coin_flip to approximate the termination probability = 0.65. If coin_flip \(\geq\) 0.65, the ray tracing will terminate.</li>
 </p>
 <br>
 
