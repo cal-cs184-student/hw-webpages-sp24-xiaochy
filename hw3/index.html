@@ -107,7 +107,11 @@
 
       <h2 align="middle">Overview</h2>
       <p>
-        YOUR RESPONSE GOES HERE
+        In this assignment, we embark on implementing a physically-based renderer utilizing the path tracing algorithm covered in 
+        lectures. To provide clarity, our implementation includes several crucial components: random ray generation, ray-scene 
+        intersection techniques encompassing primitive-ray intersection, bounding box ray intersection, and BVH-ray intersection, as 
+        well as direct and indirect illumination, employing Monte Carlo Estimation. Additionally, we integrate optimization techniques 
+        such as Russian Roulette and adaptive sampling to enhance efficiency and quality within the renderer.
       </p>
       <br>
 
@@ -122,17 +126,16 @@ Show images with normal shading for a few small .dae files. -->
       <p>
         <li>Ray Generation: Transform the normalized image coordinates to the camera space, generate a ray in the camera
           space and then transform it into a ray in the world space.
-        <li>Firstly, since we want to determine color for each pixel on the image. We generate num_samples rays for each
-          pixel. For each pixel.
+        <li>Firstly, since we want to determine the color for each pixel on the image. We generate num_samples rays for each
+          pixel.
           we get its bottom-left coordinate and plus the sample vector \(\in [0,1]*[0,1]\) and then divided it by the
           image width and height respectively to get the normalized coordinates.
         </li>
-        <li>Secondly, we transform the normalized image coordinates we get in the image space to the camera ray in the
-          camera space by calculating the distances of x, y coordinates from the center of the camera space.
-          And use the formula: \((x_c,y_c,z_c) = (\tan(hFov*(x - 0.5)), tan(vFov*(y - 0.5)), -1)\) with hFov and vFov
-          changed from degree to radian.
+        <li>Secondly, we transform the normalized coordinates (x, y) we get in the image space into the
+          camera space by using the formula: \((x_c,y_c,z_c) = (\tan(hFov*(x - 0.5)), tan(vFov*(y - 0.5)), -1)\), where $hFov$ and $vFov$
+          should be in radian.
         </li>
-        <li>Thirdly, we use camera-to-world transform matrix to get the generated ray in the world space. And we
+        <li>Thirdly, we use camera-to-world transform matrix to get the generated ray in the world space. We
           normalize the word-space ray.</li>
         <li>Finally, we set min_t and max_t of the ray as nClip and fClip, since we consider everything that lies
           outside these two clipping planes invisible to the camera.</li>
@@ -199,8 +202,25 @@ Compare rendering times on a few scenes with moderately complex geometries with 
         Walk through your BVH construction algorithm. Explain the heuristic you chose for picking the splitting point.
       </h3>
       <p>
-        YOUR RESPONSE GOES HERE
-      </p>
+        <li>
+          When constructing the BVH, we choose the axis having the greatest extent in the current round of recursion, splitting
+          the primitives at the midpoint of the bounding box on this axis. This helps us divide the primitives more evenly, avoiding
+          infinite recursion caused by distributing all primitives to one side.
+        </li>
+        <li>
+          After selecting the proper axis to divide, we sort the primitives in place by the primitive's bounding box midpoint value at that
+          axis.
+        </li>
+        <li>
+          Next, we find the midpoint index of the sorted list of primitives. We build the left and right node by recursively calling the 
+          function itself. For the left node, we pass in the primitives from start to midpoint in the sorted list; for the right node, we 
+          pass in the remained half of the list. 
+        </li>
+        <li>
+          With BVH construction, we now check the intersections more efficiently: we look into the primitives inside a node and update the 
+          corresponding values of a ray only when the ray intersects the node. 
+        </li>
+        </p>
 
       <h3>
         Show images with normal shading for a few large .dae files that you can only render with BVH acceleration.
@@ -210,22 +230,22 @@ Compare rendering times on a few scenes with moderately complex geometries with 
         <table style="width:100%">
           <tr align="center">
             <td>
-              <img src="images/your_file.png" align="middle" width="400px" />
-              <figcaption>example1.dae</figcaption>
+              <img src="part2/beast.png" align="middle" width="400px" />
+              <figcaption>beast.dae</figcaption>
             </td>
             <td>
-              <img src="images/your_file.png" align="middle" width="400px" />
-              <figcaption>example2.dae</figcaption>
+              <img src="part2/maxplank.png" align="middle" width="400px" />
+              <figcaption>maxplank.dae</figcaption>
             </td>
           </tr>
           <tr align="center">
             <td>
-              <img src="images/your_file.png" align="middle" width="400px" />
-              <figcaption>example3.dae</figcaption>
+              <img src="part2/cblucy.png" align="middle" width="400px" />
+              <figcaption>CBlucy.dae</figcaption>
             </td>
             <td>
-              <img src="images/your_file.png" align="middle" width="400px" />
-              <figcaption>example4.dae</figcaption>
+              <img src="part2/dragon.png" align="middle" width="400px" />
+              <figcaption>dragon.dae</figcaption>
             </td>
           </tr>
         </table>
@@ -236,8 +256,18 @@ Compare rendering times on a few scenes with moderately complex geometries with 
         Compare rendering times on a few scenes with moderately complex geometries with and without BVH acceleration.
         Present your results in a one-paragraph analysis.
       </h3>
+      <li>
+        For <code>cow.daw</code> with 5856 primitives, we reduce the rendering time from 14.8433s to 0.0705s.
+      </li>
+      <li>
+        For <code>CBlucy.daw</code> with 133796 primitives, we reduce the rendering time from 390.442s to 0.0508s.
+      </li>
+      From the two examples above, we observe that BVH significantly accelerates the rendering process, especially for those 
+      with a number of primitives. Instead of checking intersection for every single primitive, BVH optimizes the process 
+      by dividing the primitives into nodes and checking only the primitives inside the node whose bouding box intersects
+      the ray. Therefore, we can skip a bunch of primitives, which saves the time.
       <p>
-        YOUR RESPONSE GOES HERE
+        
       </p>
       <br>
 
@@ -251,7 +281,43 @@ Compare the results between uniform hemisphere sampling and lighting sampling in
         Walk through both implementations of the direct lighting function.
       </h3>
       <p>
-        YOUR RESPONSE GOES HERE
+        1. Uniform Hemisphere Sampling
+        <br>
+        This method samples incoming directions uniformly inside a hemisphere. We back trace those directions from the hit point
+        and check whether they encounter any light source. Below is a step-by-step instrcution:
+        <ul>
+        <li>
+          We first find the hit point based on the intersection between a ray from the camera and something in the scene. Once we find
+          such hit point, we generate random incoming ray directions by uniformly sampling inside a hemisphere.
+        </li>
+        <li>
+          For each random direction, we create a new ray going from hit point in the sampled direction. 
+        </li>
+        <li>
+          If this new ray intersects the light source, we estimate the amount of light (from the single ray) arriving at the hit point 
+          by the reflection equation $\frac{f(\omega_i \rightarrow \omega_o) L_i(p, \omega_i) cos\theta_i}{P(\omega_i)}$. $P(\omega_i)$ 
+          is the probability of getting that sample. In uniform hemisphere sampling, each direction has the same probability of being chosen, 
+          consequently $P(\omega_i) = \frac{1}{2\pi}$.
+        </li>
+        <li>Once we get all samples, we eatimate the total amount of light arriving at the hit point by using a Monte Carlo Estimator: 
+          $\frac{1}{N}\sum_{i = 1}^{N}\frac{f(\omega_i \rightarrow \omega_o) L_i(p, \omega_i) cos\theta_i}{P(\omega_i)}$, where $N$ is 
+          the number of samples we take.
+        </li>
+        </ul>
+        2. Importance Sampling Lights
+        <br>
+        The general idea of importance sampling is the same as the uniform hemisphere sampling, except that now we only generate samples of
+        directions of incoming light in the direction of the light sources.
+        <ul>
+          <li>
+            We iterate over the light sources, sampling incoming light directions between the hit point and every light source. If the light source 
+            is a point light source, we only sample once to save time (since all samples for a point light source go to the same direction).
+          </li>
+          <li>
+            For every sampled direction, we check whether there is any object between the hit point and the light source. If not, we estimate 
+            the amount of light using the same approach illustrated in uniform hemisphere sampling.
+          </li>
+          </ul>
       </p>
 
       <h3>
@@ -272,23 +338,23 @@ Compare the results between uniform hemisphere sampling and lighting sampling in
           <br>
           <tr align="center">
             <td>
-              <img src="images/your_file.png" align="middle" width="400px" />
-              <figcaption>example1.dae</figcaption>
+              <img src="part3/CBbunny_H_16_8.png" align="middle" width="400px" />
+              <figcaption>CBbunny.dae (16 rays per pixel + 8 samples per light)</figcaption>
             </td>
             <td>
-              <img src="images/your_file.png" align="middle" width="400px" />
-              <figcaption>example1.dae</figcaption>
+              <img src="part3/bunny_16_8.png" align="middle" width="400px" />
+              <figcaption>CBbunny.dae (16 rays per pixel + 8 samples per light)</figcaption>
             </td>
           </tr>
           <br>
           <tr align="center">
             <td>
-              <img src="images/your_file.png" align="middle" width="400px" />
-              <figcaption>example2.dae</figcaption>
+              <img src="part3/CBbunny_H_64_32.png" align="middle" width="400px" />
+              <figcaption>CBbunny.dae (64 rays per pixel + 32 samples per light)</figcaption>
             </td>
             <td>
-              <img src="images/your_file.png" align="middle" width="400px" />
-              <figcaption>example2.dae</figcaption>
+              <img src="part3/bunny_64_32.png" align="middle" width="400px" />
+              <figcaption>CBbunny.dae (64 rays per pixel + 32 samples per light)</figcaption>
             </td>
           </tr>
           <br>
@@ -306,28 +372,29 @@ Compare the results between uniform hemisphere sampling and lighting sampling in
         <table style="width:100%">
           <tr align="center">
             <td>
-              <img src="images/your_file.png" align="middle" width="200px" />
-              <figcaption>1 Light Ray (example1.dae)</figcaption>
+              <img src="part3/bunny_1_1.png" align="middle" width="400px" />
+              <figcaption>1 Light Ray (CBbunny.dae)</figcaption>
             </td>
             <td>
-              <img src="images/your_file.png" align="middle" width="200px" />
-              <figcaption>4 Light Rays (example1.dae)</figcaption>
+              <img src="part3/bunny_1_4.png" align="middle" width="400px" />
+              <figcaption>4 Light Rays (CBbunny.dae)</figcaption>
             </td>
           </tr>
           <tr align="center">
             <td>
-              <img src="images/your_file.png" align="middle" width="200px" />
-              <figcaption>16 Light Rays (example1.dae)</figcaption>
+              <img src="part3/bunny_1_16.png" align="middle" width="400px" />
+              <figcaption>16 Light Rays (CBbunny.dae)</figcaption>
             </td>
             <td>
-              <img src="images/your_file.png" align="middle" width="200px" />
-              <figcaption>64 Light Rays (example1.dae)</figcaption>
+              <img src="part3/bunny_1_64.png" align="middle" width="400px" />
+              <figcaption>64 Light Rays (CBbunny.dae)</figcaption>
             </td>
           </tr>
         </table>
       </div>
       <p>
-        YOUR EXPLANATION GOES HERE
+        With few light rays, the shadow is shattered, and we can see the noisy points around. As we render with higher number of light rays, 
+        we find that the shadown under the bunny become "softer."
       </p>
       <br>
 
@@ -335,7 +402,10 @@ Compare the results between uniform hemisphere sampling and lighting sampling in
         Compare the results between uniform hemisphere sampling and lighting sampling in a one-paragraph analysis.
       </h3>
       <p>
-        YOUR RESPONSE GOES HERE
+       When using the same parameters, importance sampling renders faster than uniform hemisphere sampling does. The reason is thet uniform 
+       hemisphere sampling take random samples in every direction, while importance sampling only focuses on directions between hit point and 
+       the light sources and it samples the point light sources only once. This difference between the two sampling methods also lead to the 
+       fact that the results from uniform hemisphere sampling is more noisy than that from importance sampling.
       </p>
       <br>
 
@@ -352,25 +422,35 @@ You will probably want to use the instructional machines for the above renders i
         Walk through your implementation of the indirect lighting function.
       </h3>
       <p>
-        <li>Firstly, when generating ray from pixels in <code>raytrace_pixel(size_t x, size_t y)</code>, we set the
-          depth of each ray as max_ray_depth.</li>
-        <li>Secondly, in <code>raytrace_pixel(size_t x, size_t y)</code>, we will call
+        <li>
+          Firstly, when generating ray from pixels in <code>raytrace_pixel(size_t x, size_t y)</code>, we set the
+          depth of each ray as max_ray_depth.
+        </li>
+        <li>
+          Secondly, in <code>raytrace_pixel(size_t x, size_t y)</code>, we call
           <code>est_radiance_global_illumination(const Ray &r)</code> for each sample ray to calculate its radiance on
-          this pixel.</li>
-        And in <code>est_radiance_global_illumination(const Ray &r)</code>, we discuss two cases: isAccumBounces = true
-        and isAccumBounces = false. If true, we will return
-        <code>zero_bounce_radiance(r, isect) + at_least_one_bounce_radiance(r, isect)</code>. Otherwise, we will just
-        return <code>at_least_one_bounce_radiance(r, isect)</code>.
-        If ray depth = 0, we will return zero_bounce_radiance directly.
-        <li>In <code>at_least_one_bounce_radiance(const Ray &r,const Intersection &isect)</code>, we also discuss
-          isAccumBounces. If it is true, it will recursively add the direct illumination with the indirect illumination
-          on this intersection, since it needs to calculate all length of bounce paths under the length of
-          max_ray_depth. However, for
-          isAccumBounces = false, we only add the direct illumination once when the ray achieves its max_ray_depth,
-          which means we only calculate the ray with lenght exactly equals max_ray_depth.</li>
-        <li>In order to decrease bias of the force termination and reduce the rendering time. We implement Russian
-          Roulette, which provides us an unbiased method of random termination. We use coin_flip to approximate the
-          termination probability = 0.65. If coin_flip \(\geq\) 0.65, the ray tracing will terminate.</li>
+          this pixel.
+        </li>
+        <li>
+          Next, we divide into two cases in <code>est_radiance_global_illumination(const Ray &r)</code>: <code>isAccumBounces = true</code>
+          and <code>isAccumBounces = false</code>. If it is true, the method returns
+          <code>zero_bounce_radiance(r, isect) + at_least_one_bounce_radiance(r, isect)</code>. Otherwise, the method 
+          returns <code>at_least_one_bounce_radiance(r, isect)</code>, only estimating the radience at the required level.
+          If <code>ray depth == 0,</code>, we return <code>zero_bounce_radiance(r, isect)</code> directly.
+        </li>
+        <li>
+          In <code>at_least_one_bounce_radiance(const Ray &r,const Intersection &isect)</code>, we also need to check 
+          the value of <code>isAccumBounces</code>. If it is true, the method would cumulatively add the direct illumination with 
+          the indirect illumination on this intersection until it reaches the ray's <code>max_depth</code>. However, for
+          <code>isAccumBounces = false</code>, we only add the direct illumination once when the ray achieves its max_ray_depth,
+          which means we only estimate the amount of light arriving at the intersection with <code>max_depth</code> bounces.
+        </li>
+        <li>
+          In order to avoid bias resulted from forcing termination after <code>max_depths</code> bounces as well as to reduce the 
+          rendering time, we implement Russian Roulette, which provides us an unbiased method of random termination. Our termination 
+          probability is 0.65, and we use a random <code>coin_flip</code> to determine whether we terminate or not (if coin_flip \(\geq\) 0.65, 
+          the ray tracing algorithm stops).
+        </li>
       </p>
       <br>
 
@@ -382,11 +462,11 @@ You will probably want to use the instructional machines for the above renders i
         <table style="width:100%">
           <tr align="center">
             <td>
-              <img src=".\part4_2\lucy.png" align="middle" width="400px" />
+              <img src="part4_2/lucy.png" align="middle" width="400px" />
               <figcaption>CBlucy.dae with global illumination</figcaption>
             </td>
             <td>
-              <img src=".\part4_2\gems.png" align="middle" width="400px" />
+              <img src="part4_2\gems.png" align="middle" width="400px" />
               <figcaption>CBgems.dae with global illumination</figcaption>
             </td>
           </tr>
@@ -404,11 +484,11 @@ You will probably want to use the instructional machines for the above renders i
         <table style="width:100%">
           <tr align="center">
             <td>
-              <img src=".\part4_3\CBbunny_direct.png" align="middle" width="400px" />
+              <img src="part4_3/bunny_direct.png" align="middle" width="400px" />
               <figcaption>Only direct illumination (CBbunny.dae)</figcaption>
             </td>
             <td>
-              <img src=".\part4_3\CBbunny_indirect.png" align="middle" width="400px" />
+              <img src="part4_3/bunny_indirect_only.png" align="middle" width="400px" />
               <figcaption>Only indirect illumination (CBbunny.dae)</figcaption>
             </td>
           </tr>
@@ -462,14 +542,14 @@ You will probably want to use the instructional machines for the above renders i
       </div>
       <br>
       <p>
-        The second bounce lights up the places without light before, especially for the ceiling. And the third bounce
-        helps further improve the details of light reflected in the environment.
+        The second bounce lights up the places without light before. The ceiling, which is dark in zero and one bounce,
+        is now bright. The third bounce helps further improve the details of light and shadow in the environment.
         <li>The second bounce helps to fill in areas of the scene that may not receive direct light, resulting in more
           realistic and natural-looking images. It enhances the overall lighting distribution and creates a sense of
           depth and atmosphere.</li>
         <li>The third bounce helps to smooth out the indirect lighting and reduce noise in the final rendered image,
           resulting in a higher quality and more visually pleasing result.</li>
-        Compared to rasterization, rather than approximate the indirect illumination, we simulate the real light paths
+        Compared to rasterization, rather than approximating the indirect illumination, we simulate the real light paths
         in tracing light, which makes the rendered image more realistic and less noisy.
       </p>
       <br>
@@ -483,7 +563,7 @@ You will probably want to use the instructional machines for the above renders i
         <table style="width:100%">
           <tr align="center">
             <td>
-              <img src=".\part4_5\bunny_m0_1.png" align="middle" width="400px" />
+              <img src="part4_5/bunny_m0_1.png" align="middle" width="400px" />
               <figcaption>max_ray_depth = 0 (CBbunny.dae)</figcaption>
             </td>
             <td>
@@ -516,7 +596,7 @@ You will probably want to use the instructional machines for the above renders i
       </div>
       <br>
       <p>
-        We can see that after the second bounce, the image looks good already. The higher bounces help further refine
+        We can see that after the second bounce, the image looks pretty good. The higher bounces help further refine
         the details of shadowing, which makes the image even more realistic. And with the higher bounces added on, the
         image becomes brighter and brighter.
       </p>
@@ -531,31 +611,31 @@ You will probably want to use the instructional machines for the above renders i
         <table style="width:100%">
           <tr align="center">
             <td>
-              <img src=".\part4_6\bunny_m0_1_r.png" align="middle" width="400px" />
+              <img src="part4_6/bunny_m0_1_rr.png" align="middle" width="400px" />
               <figcaption>max_ray_depth = 0 with Russian Roulette(CBbunny.dae)</figcaption>
             </td>
             <td>
-              <img src=".\part4_6\bunny_m1_1_r.png" align="middle" width="400px" />
+              <img src="part4_6/bunny_m1_1_rr.png" align="middle" width="400px" />
               <figcaption>max_ray_depth = 1 with Russian Roulette(CBbunny.dae)</figcaption>
             </td>
           </tr>
           <tr align="center">
             <td>
-              <img src=".\part4_6\bunny_m2_1_r.png" align="middle" width="400px" />
+              <img src="part4_6/bunny_m2_1_rr.png" align="middle" width="400px" />
               <figcaption>max_ray_depth = 2 with Russian Roulette(CBbunny.dae)</figcaption>
             </td>
             <td>
-              <img src=".\part4_6\bunny_m3_1_r.png" align="middle" width="400px" />
+              <img src="part4_6/bunny_m3_1_rr.png" align="middle" width="400px" />
               <figcaption>max_ray_depth = 3 with Russian Roulette(CBbunny.dae)</figcaption>
             </td>
           </tr>
           <tr align="center">
             <td>
-              <img src=".\part4_6\bunny_m4_1_r.png" align="middle" width="400px" />
+              <img src="part4_6/bunny_m4_1_rr.png" align="middle" width="400px" />
               <figcaption>max_ray_depth = 4 with Russian Roulette(CBbunny.dae)</figcaption>
             </td>
             <td>
-              <img src=".\part4_6\bunny_m100_1_r.png" align="middle" width="400px" />
+              <img src="part4_6/bunny_m100_1_rr.png" align="middle" width="400px" />
               <figcaption>max_ray_depth = 100 with Russian Roulette(CBbunny.dae)</figcaption>
             </td>
           </tr>
@@ -563,7 +643,7 @@ You will probably want to use the instructional machines for the above renders i
       </div>
       <br>
       <p>
-        The rendered images with Russian Roulette are similar to those without this technique. However, the rendering
+        The rendered images with Russian Roulette are similar to what we got from previous parts. However, the rendering
         time reduces.
       </p>
       <br>
@@ -577,37 +657,37 @@ You will probably want to use the instructional machines for the above renders i
         <table style="width:100%">
           <tr align="center">
             <td>
-              <img src=".\part4_7\dragon_m5_s1_1_r.png" align="middle" width="400px" />
+              <img src="part4_7/dragon_1.png" align="middle" width="400px" />
               <figcaption>1 sample per pixel (CBdragon.dae)</figcaption>
             </td>
             <td>
-              <img src=".\part4_7\dragon_m5_s2_1_r.png" align="middle" width="400px" />
+              <img src="part4_7/dragon_2.png" align="middle" width="400px" />
               <figcaption>2 samples per pixel (CBdragon.dae)</figcaption>
             </td>
           </tr>
           <tr align="center">
             <td>
-              <img src=".\part4_7\dragon_m5_s4_1_r.png" align="middle" width="400px" />
+              <img src="part4_7/dragon_4.png" align="middle" width="400px" />
               <figcaption>4 samples per pixel (CBdragon.dae)</figcaption>
             </td>
             <td>
-              <img src=".\part4_7\dragon_m5_s8_1_r.png" align="middle" width="400px" />
+              <img src="part4_7/dragon_8.png" align="middle" width="400px" />
               <figcaption>8 samples per pixel (CBdragon.dae)</figcaption>
             </td>
           </tr>
           <tr align="center">
             <td>
-              <img src=".\part4_7\dragon_m5_s16_1_r.png" align="middle" width="400px" />
+              <img src="part4_7/dragon_16.png" align="middle" width="400px" />
               <figcaption>16 samples per pixel (CBdragon.dae)</figcaption>
             </td>
             <td>
-              <img src=".\part4_7\dragon_m5_s64_1_r.png" align="middle" width="400px" />
+              <img src="part4_7/dragon_64.png" align="middle" width="400px" />
               <figcaption>64 samples per pixel (CBdragon.dae)</figcaption>
             </td>
           </tr>
           <tr align="center">
             <td>
-              <img src=".\part4_7\dragon_m5_s1024_1_r.png" align="middle" width="400px" />
+              <img src="part4_7/dragon_1024.png" align="middle" width="400px" />
               <figcaption>1024 samples per pixel (CBdragon.dae)</figcaption>
             </td>
           </tr>
@@ -649,21 +729,21 @@ Pick one scene and render it with at least 2048 samples per pixel. Show a good s
         <table style="width:100%">
           <tr align="center">
             <td>
-              <img src=".\part5\bunny_part5.png" align="middle" width="400px" />
+              <img src="part5/bunny.png" align="middle" width="400px" />
               <figcaption>Rendered image (CBbunny.dae)</figcaption>
             </td>
             <td>
-              <img src=".\part5\bunny_part5_rate.png" align="middle" width="400px" />
+              <img src="part5/bunny_rate.png" align="middle" width="400px" />
               <figcaption>Sample rate image (CBbunny.dae)</figcaption>
             </td>
           </tr>
           <tr align="center">
             <td>
-              <img src=".\part5\dragon_part5.png" align="middle" width="400px" />
+              <img src="part5/dragon.png" align="middle" width="400px" />
               <figcaption>Rendered image (CBdragon.dae)</figcaption>
             </td>
             <td>
-              <img src=".\part5\dragon_part5_rate.png" align="middle" width="400px" />
+              <img src="part5/dragon_rate.png" align="middle" width="400px" />
               <figcaption>Sample rate image (CBdragon.dae)</figcaption>
             </td>
           </tr>
