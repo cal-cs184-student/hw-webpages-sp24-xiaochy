@@ -1,7 +1,124 @@
-<html>
-	<head>
-	</head>
-	<body>
-		Homework 4 index.html here
-	</body>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+<style>
+  body {
+    padding: 100px;
+    width: 1000px;
+    margin: auto;
+    text-align: left;
+    font-weight: 300;
+    font-family: 'Open Sans', sans-serif;
+    color: #121212;
+  }
+  h1, h2, h3, h4 {
+    font-family: 'Source Sans Pro', sans-serif;
+  }
+</style>
+<title>CS 184 Mesh Editor</title>
+<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+<link href="https://fonts.googleapis.com/css?family=Open+Sans|Source+Sans+Pro" rel="stylesheet">
+</head>
+
+
+<body>
+
+<h1 align="middle">CS 184: Computer Graphics and Imaging, Spring 2024</h1>
+<h1 align="middle">Project 4: Cloth Simulator</h1>
+<h2 align="middle">Chuyang Xiao, Claire Fang</h2>
+
+<br><br>
+
+<div>
+
+<h2 align="middle">Overview</h2>
+<p>Give a high-level overview of what you implemented in this project. Think about what you've built as a whole. Share your thoughts on what interesting things you've learned from completing the project.</p>
+
+<h2 align="middle">Part 1: Masses and springs</h2>
+<h3>
+  Take some screenshots of scene/pinned2.json from a viewing angle where you can clearly see the cloth wireframe to show the structure of your point masses and springs.
+</h3>
+<div align="middle">
+  <table style="width:100%">
+    <tr align="center">
+      <td>
+        <img src="./part1_1_1.png" align="middle" width="400px" />
+        <figcaption>view angle 1</figcaption>
+      </td>
+      <td>
+        <img src="./part1_1_2.png" align="middle" width="400px" />
+        <figcaption>view angle 2</figcaption>
+      </td>
+    </tr>
+  </table>
+</div>
+
+<h3>
+  Show us what the wireframe looks like (1) without any shearing constraints, (2) with only shearing constraints, and (3) with all constraints.
+</h3>
+<div align="middle">
+  <table style="width:100%">
+    <tr align="center">
+      <td>
+        <img src="./part1_2_1.png" align="middle" width="400px" />
+        <figcaption>(1) without any shearing constraints</figcaption>
+      </td>
+      <td>
+        <img src="./part1_2_2.png" align="middle" width="400px" />
+        <figcaption>(2) with only shearing constraints</figcaption>
+      </td>
+    </tr>
+    <tr align="center">
+      <td>
+        <img src="./part1_2_3.png" align="middle" width="400px" />
+        <figcaption>(3) with all constraints</figcaption>
+      </td>
+    </tr>
+  </table>
+</div>
+
+<h2 align="middle">Part 3: Handling collisions with other objects</h2>
+<h3>
+  Show us screenshots of your shaded cloth from scene/sphere.json in its final resting state on the sphere using the default ks = 5000 as well as with ks = 500 and ks = 50000. Describe the differences in the results.
+</h3>
+
+<div align="middle">
+  <table style="width:100%">
+    <tr align="center">
+      <td>
+        <img src="./part3_1_1.png" align="middle" width="400px" />
+        <figcaption>ks = 500</figcaption>
+      </td>
+      <td>
+        <img src="./part3_1_2.png" align="middle" width="400px" />
+        <figcaption>ks = 5000</figcaption>
+      </td>
+    </tr>
+    <tr align="center">
+      <td>
+        <img src="./part3_1_3.png" align="middle" width="400px" />
+        <figcaption>ks = 50000</figcaption>
+      </td>
+    </tr>
+  </table>
+</div>
+
+<p>Difference:
+  <li>As ks increases, the distance between two masses grows since the force increases due to F = ks*x. </li> 
+  <li>The cloth seems to be more fitting to the sphere when ks is small.</li>
+</p>
+
+<h3>Show us a screenshot of your shaded cloth lying peacefully at rest on the plane. </h3>
+<div align="middle">
+  <table style="width:100%">
+    <tr align="center">
+      <td>
+        <img src="" align="middle" width="400px" />
+        <figcaption>Shaded cloth lying peacefully at rest on the plane (TODO: add after shading part)</figcaption>
+      </td>
+    </tr> 
+  </table>
+</div>
+
+</body>
 </html>
