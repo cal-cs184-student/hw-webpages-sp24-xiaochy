@@ -42,11 +42,11 @@
   <table style="width:100%">
     <tr align="center">
       <td>
-        <img src="./part1_1_1.png" align="middle" width="400px" />
+        <img src="./part1_1_1.png" align="middle" width="500px" />
         <figcaption>view angle 1</figcaption>
       </td>
       <td>
-        <img src="./part1_1_2.png" align="middle" width="400px" />
+        <img src="./part1_1_2.png" align="middle" width="500px" />
         <figcaption>view angle 2</figcaption>
       </td>
     </tr>
@@ -60,22 +60,135 @@
   <table style="width:100%">
     <tr align="center">
       <td>
-        <img src="./part1_2_1.png" align="middle" width="400px" />
+        <img src="./part1_2_1.png" align="middle" width="500px" />
         <figcaption>(1) without any shearing constraints</figcaption>
       </td>
       <td>
-        <img src="./part1_2_2.png" align="middle" width="400px" />
+        <img src="./part1_2_2.png" align="middle" width="500px" />
         <figcaption>(2) with only shearing constraints</figcaption>
       </td>
     </tr>
     <tr align="center">
       <td>
-        <img src="./part1_2_3.png" align="middle" width="400px" />
+        <img src="./part1_2_3.png" align="middle" width="500px" />
         <figcaption>(3) with all constraints</figcaption>
       </td>
     </tr>
   </table>
 </div>
+
+<h2 align="middle">Part 2: Simulation via Numerical Integration</h2>
+<h3>
+  Describe the effects of changing the spring constant ks; how does the cloth behave from start to rest with a very low ks? A high ks?
+</h3>
+<div align="middle">
+  <table style="width:100%">
+    <tr align="center">
+      <td>
+        <img src="./part2_ks500.jpg" align="middle" width="500px" />
+        <figcaption>ks = 500 N/m</figcaption>
+      </td>
+      <td>
+        <img src="./part2_ks5000.jpg" align="middle" width="500px" />
+        <figcaption>ks = 5000 N/m</figcaption>
+      </td>
+    </tr>
+    <tr align="center">
+      <td>
+        <img src="./part2_ks50000.jpg" align="middle" width="500px" />
+        <figcaption>ks = 50000 N/m</figcaption>
+      </td>
+      <td>
+        <img src="./part2_ks500000.jpg" align="middle" width="500px" />
+        <figcaption>ks = 500000 N/m</figcaption>
+      </td>
+    </tr>
+  </table>
+</div>
+ks is the spring constant, and it measures the stiffness of a spring, affecting the force applied on each point mass. When ks is small,
+the cloth shows more curvature on the top. When ks is large, the cloth seems to be more stiff. However, when ks is too large, the cloth 
+behaves strangely and never reaches a resting state (shown in the bottom right image).
+
+<h3>
+  What about for density?
+</h3>
+<div align="middle">
+  <table style="width:100%">
+    <tr align="center">
+      <td>
+        <img src="./part2_d1.jpg" align="middle" width="500px" />
+        <figcaption>d = 1 g/cm^2</figcaption>
+      </td>
+      <td>
+        <img src="./part2_d10.jpg" align="middle" width="500px" />
+        <figcaption>d = 10 g/cm^2</figcaption>
+      </td>
+    </tr>
+    <tr align="center">
+      <td>
+        <img src="./part2_d100.jpg" align="middle" width="500px" />
+        <figcaption>d = 100 g/cm^2</figcaption>
+      </td>
+      <td>
+        <img src="./part2_d1000.jpg" align="middle" width="500px" />
+        <figcaption>d = 1000 g/cm^2</figcaption>
+      </td>
+    </tr>
+  </table>
+</div>
+Density measures the mass of the cloth per unit area. Small density indicates less force, which makes the cloth look lighter as the curvature 
+on the top is less significant. As density increases, the external forces have greater effect on the cloth, making greater curvature. When 
+density is 1000 g/cm^2, the cloth never reaches a resting state.
+
+
+<h3>
+  What about for damping?
+</h3>
+<div align="middle">
+  <table style="width:100%">
+    <tr align="center">
+      <td>
+        <img src="./part2_damping01.jpg" align="middle" width="500px" />
+        <figcaption>damping = 0%</figcaption>
+      </td>
+      <td>
+        <img src="./part2_damping02.jpg" align="middle" width="500px" />
+        <figcaption>damping = 0%</figcaption>
+      </td>
+    </tr>
+    <tr align="center">
+      <td>
+        <img src="./part2_damping03.jpg" align="middle" width="500px" />
+        <figcaption>damping = 0%</figcaption>
+      </td>
+      <td>
+        <img src="./part2_damping1.jpg" align="middle" width="500px" />
+        <figcaption>damping = 100%</figcaption>
+      </td>
+    </tr>
+  </table>
+</div>
+Damping helps simulate the energy loss during the process of the cloth falling down. When damping is 0%, the cloth keeps oscilating back and forth. As we increase 
+the damping value, the cloth moves slower and slower, finally reaching its resting state.
+
+<h3>
+  Show us a screenshot of your shaded cloth from scene/pinned4.json in its final resting state! If you choose to use different parameters than the default ones, please list them.
+</h3>
+<div align="middle">
+  <table style="width:100%">
+    <tr align="center">
+      <td>
+        <img src="./part2_pinned4.jpg" align="middle" width="500px" />
+        <figcaption>cloth with normal shading</figcaption>
+      </td>
+      <td>
+        <img src="./part2_bump.jpg" align="middle" width="500px" />
+        <figcaption>cloth with bump shading</figcaption>
+      </td>
+    </tr>
+  </table>
+</div>
+
 
 <h2 align="middle">Part 3: Handling collisions with other objects</h2>
 <h3>
@@ -86,18 +199,18 @@
   <table style="width:100%">
     <tr align="center">
       <td>
-        <img src="./part3_1_1.png" align="middle" width="400px" />
-        <figcaption>ks = 500</figcaption>
+        <img src="./part3_1_1.png" align="middle" width="500px" />
+        <figcaption>ks = 500 N/m</figcaption>
       </td>
       <td>
-        <img src="./part3_1_2.png" align="middle" width="400px" />
-        <figcaption>ks = 5000</figcaption>
+        <img src="./part3_1_2.png" align="middle" width="500px" />
+        <figcaption>ks = 5000 N/m</figcaption>
       </td>
     </tr>
     <tr align="center">
       <td>
-        <img src="./part3_1_3.png" align="middle" width="400px" />
-        <figcaption>ks = 50000</figcaption>
+        <img src="./part3_1_3.png" align="middle" width="500px" />
+        <figcaption>ks = 50000 N/m</figcaption>
       </td>
     </tr>
   </table>
@@ -113,7 +226,7 @@
   <table style="width:100%">
     <tr align="center">
       <td>
-        <img src="./part_3_todo.png" align="middle" width="400px" />
+        <img src="./part_3_todo.png" align="middle" width="500px" />
         <figcaption>Shaded cloth lying peacefully at rest on the plane</figcaption>
       </td>
     </tr> 
@@ -129,27 +242,27 @@
   <table style="width:100%">
     <tr align="center">
       <td>
-        <img src="./part_4_1_1.png" align="middle" width="400px" />
+        <img src="./part_4_1_1.png" align="middle" width="500px" />
         <figcaption>The first state</figcaption>
       </td>
       <td>
-        <img src="./part_4_1_2.png" align="middle" width="400px" />
+        <img src="./part_4_1_2.png" align="middle" width="500px" />
         <figcaption>The second state</figcaption>
       </td>
     </tr>
     <tr align="center">
       <td>
-        <img src="./part_4_1_3.png" align="middle" width="400px" />
+        <img src="./part_4_1_3.png" align="middle" width="500px" />
         <figcaption>The third state</figcaption>
       </td>
       <td>
-        <img src="./part_4_1_4.png" align="middle" width="400px" />
+        <img src="./part_4_1_4.png" align="middle" width="500px" />
         <figcaption>The fourth state</figcaption>
       </td>
     </tr>
     <tr align="center">
       <td>
-        <img src="./part_4_1_5.png" align="middle" width="400px" />
+        <img src="./part_4_1_5.png" align="middle" width="500px" />
         <figcaption>The fifth state</figcaption>
       </td>
     </tr>
@@ -161,17 +274,17 @@
   <table style="width:100%">
     <tr align="center">
       <td>
-        <img src="./part_4_2_1.png" align="middle" width="400px" />
+        <img src="./part_4_2_1.png" align="middle" width="500px" />
         <figcaption>ks = 5000</figcaption>
       </td>
       <td>
-        <img src="./part4_2_2.png" align="middle" width="400px" />
+        <img src="./part4_2_2.png" align="middle" width="500px" />
         <figcaption>ks = 10000</figcaption>
       </td>
     </tr>
     <tr align="center">
       <td>
-        <img src="./part4_2_3.png" align="middle" width="400px" />
+        <img src="./part4_2_3.png" align="middle" width="500px" />
         <figcaption>ks = 50000</figcaption>
       </td>
     </tr>
@@ -184,17 +297,17 @@
   <table style="width:100%">
     <tr align="center">
       <td>
-        <img src="./part_4_density_1.png" align="middle" width="400px" />
+        <img src="./part_4_density_1.png" align="middle" width="500px" />
         <figcaption>Density = 10</figcaption>
       </td>
       <td>
-        <img src="./part_4_density_2.png" align="middle" width="400px" />
+        <img src="./part_4_density_2.png" align="middle" width="500px" />
         <figcaption>Density = 20</figcaption>
       </td>
     </tr>
     <tr align="center">
       <td>
-        <img src="./part_4_density_3.png" align="middle" width="400px" />
+        <img src="./part_4_density_3.png" align="middle" width="500px" />
         <figcaption>Density = 30</figcaption>
       </td>
     </tr>
@@ -222,25 +335,69 @@
   <table style="width:100%">
     <tr align="center">
       <td>
-        <img src="./part_5_1.png" align="middle" width="400px" />
+        <img src="./part_5_1.png" align="middle" width="500px" />
         <figcaption>Only the ambient component</figcaption>
       </td>
       <td>
-        <img src="./part_5_2.png" align="middle" width="400px" />
+        <img src="./part_5_2.png" align="middle" width="500px" />
         <figcaption>only the diffuse component</figcaption>
       </td>
     </tr>
     <tr align="center">
       <td>
-        <img src="./part_5_3.png" align="middle" width="400px" />
+        <img src="./part_5_3.png" align="middle" width="500px" />
         <figcaption>only the specular component</figcaption>
       </td>
       <td>
-        <img src="./part_5_4.png" align="middle" width="400px" />
+        <img src="./part_5_4.png" align="middle" width="500px" />
         <figcaption>Entire Blinn-Phong model</figcaption>
       </td>
     </tr>
   </table>
 </div>
+
+<h3>
+  Show a screenshot of your texture mapping shader using your own custom texture by modifying the textures in /textures/.
+</h3>
+<div align="middle">
+  <table style="width:100%">
+    <tr align="center">
+      <td>
+        <img src="./part5_texture1.jpg" align="middle" width="500px" />
+        <figcaption>Viewpoint 1</figcaption>
+      </td>
+      <td>
+        <img src="./part5_texture2.jpg" align="middle" width="500px" />
+        <figcaption>Viewpoint 2</figcaption>
+      </td>
+    </tr>
+  </table>
+</div>
+
+<h3>
+  Show a screenshot of bump mapping on the cloth and on the sphere. Show a screenshot of displacement mapping on the sphere. Use the same texture for both renders. 
+  You can either provide your own texture or use one of the ones in the textures directory, BUT choose one that's not the default texture_2.png. Compare the two 
+  approaches and resulting renders in your own words. Compare how your the two shaders react to the sphere by changing the sphere mesh's coarseness by using -o 16 -a 16 and then -o 128 -a 128.
+</h3>
+
+<h3>
+  Show a screenshot of your mirror shader on the cloth and on the sphere.
+</h3>
+<div align="middle">
+  <table style="width:100%">
+    <tr align="center">
+      <td>
+        <img src="./part5_mirror.jpg" align="middle" width="500px" />
+        <figcaption>Sphere with mirror shading</figcaption>
+      </td>
+      <td>
+        <img src="./part5_mirror_cloth.jpg" align="middle" width="500px" />
+        <figcaption>Cloth with mirror shading</figcaption>
+      </td>
+    </tr>
+  </table>
+</div>
+
+
 </body>
 </html>
