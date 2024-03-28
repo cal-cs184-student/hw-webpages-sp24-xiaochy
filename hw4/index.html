@@ -113,12 +113,134 @@
   <table style="width:100%">
     <tr align="center">
       <td>
-        <img src="" align="middle" width="400px" />
-        <figcaption>Shaded cloth lying peacefully at rest on the plane (TODO: add after shading part)</figcaption>
+        <img src="./part_3_todo.png" align="middle" width="400px" />
+        <figcaption>Shaded cloth lying peacefully at rest on the plane</figcaption>
       </td>
     </tr> 
   </table>
 </div>
 
+<h2 align="middle">Part 4: Handling self-collisions</h2>
+<h3>
+  Show us at least 3 screenshots that document how your cloth falls and folds on itself, starting with an early, initial self-collision and ending with the cloth at a more restful state (even if it is still slightly bouncy on the ground).
+</h3>
+
+<div align="middle">
+  <table style="width:100%">
+    <tr align="center">
+      <td>
+        <img src="./part4_1_1.png" align="middle" width="400px" />
+        <figcaption>The first state</figcaption>
+      </td>
+      <td>
+        <img src="./part4_1_2.png" align="middle" width="400px" />
+        <figcaption>The second state</figcaption>
+      </td>
+    </tr>
+    <tr align="center">
+      <td>
+        <img src="./part4_1_3.png" align="middle" width="400px" />
+        <figcaption>The third state</figcaption>
+      </td>
+      <td>
+        <img src="./part4_1_4.png" align="middle" width="400px" />
+        <figcaption>The fourth state</figcaption>
+      </td>
+    </tr>
+    <tr align="center">
+      <td>
+        <img src="./part4_1_5.png" align="middle" width="400px" />
+        <figcaption>The fifth state</figcaption>
+      </td>
+    </tr>
+  </table>
+</div>
+
+<h3>Vary the density as well as ks and describe with words and screenshots how they affect the behavior of the cloth as it falls on itself.</h3>
+<div align="middle">
+  <table style="width:100%">
+    <tr align="center">
+      <td>
+        <img src="./part4_2_1.png" align="middle" width="400px" />
+        <figcaption>ks = 5000</figcaption>
+      </td>
+      <td>
+        <img src="./part4_2_2.png" align="middle" width="400px" />
+        <figcaption>ks = 10000</figcaption>
+      </td>
+    </tr>
+    <tr align="center">
+      <td>
+        <img src="./part4_2_3.png" align="middle" width="400px" />
+        <figcaption>ks = 50000</figcaption>
+      </td>
+    </tr>
+  </table>
+</div>
+
+<p>As ks increases, the number of self-collisions decreases when the cloth drops, and there is no significant bumpiness. The cloth tends to maintain its original shape and is more rigid.</p>
+
+<div align="middle">
+  <table style="width:100%">
+    <tr align="center">
+      <td>
+        <img src="./part4_density_1.png" align="middle" width="400px" />
+        <figcaption>Density = 10</figcaption>
+      </td>
+      <td>
+        <img src="./part4_density_2.png" align="middle" width="400px" />
+        <figcaption>Density = 20</figcaption>
+      </td>
+    </tr>
+    <tr align="center">
+      <td>
+        <img src="./part4_density_3.png" align="middle" width="400px" />
+        <figcaption>Density = 30</figcaption>
+      </td>
+    </tr>
+  </table>
+</div>
+
+<p>As the density increases, the cloth drops more slowly, the number of self-collisions decreases and the bumpiness reduces. The cloth tends to maintain its original shape and is more rigid.</p>
+
+<h2 align="middle">Part 5: Cloth Sim</h2>
+<h3>
+  Explain in your own words what is a shader program and how vertex and fragment shaders work together to create lighting and material effects.
+</h3>
+<li>A shader program is a type of computer program used in computer graphics to determine the rendering of objects in a 3D scene. It operates on the GPU and is responsible for calculating the color, texture, lighting, and other visual properties of each pixel on the screen.</li>
+<li>The vertex shader handles geometric transformations which determines the vertex position and prepares data for the fragment shader, while the fragment shader computes the final appearance of each pixel based on lighting, textures, and other factors. </li>
+
+<h3>
+  Explain the Blinn-Phong shading model in your own words. Show a screenshot of your Blinn-Phong shader outputting only the ambient component, a screen shot only outputting the diffuse component, a screen shot only outputting the specular component, and one using the entire Blinn-Phong model.
+</h3>
+<li>Ambient Component: The light appears everywhere in the scene, regardless of the direct illumination which prevents the complete darkness.</li>
+<li>Diffuse Component: The light is scattered equally in all directions upon hitting a surface. It is responsible for the color of an object when it is illuminated by direct light sources. </li>
+<li>Specular Component: Specular highlights are bright, shiny spots on a surface that occur when light reflects off it in a concentrated manner. </li>
+<li>The Blinn-Phong shading model combines the three components above to compute the final color of each pixel on a surface, resulting in a realistic representation of how light interacts with objects in a 3D scene.</li>
+
+<div align="middle">
+  <table style="width:100%">
+    <tr align="center">
+      <td>
+        <img src="./part_5_1.png" align="middle" width="400px" />
+        <figcaption>Only the ambient component</figcaption>
+      </td>
+      <td>
+        <img src="./part_5_2.png" align="middle" width="400px" />
+        <figcaption>only the diffuse component</figcaption>
+      </td>
+    </tr>
+    <tr align="center">
+      <td>
+        <img src="./part_5_3.png" align="middle" width="400px" />
+        <figcaption>only the specular component</figcaption>
+      </td>
+      <td>
+        <img src="./part_5_4.png" align="middle" width="400px" />
+        <figcaption>Entire Blinn-Phong model</figcaption>
+      </td>
+    </tr>
+  </table>
+</div>
 </body>
 </html>
