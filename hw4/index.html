@@ -32,7 +32,12 @@
 <div>
 
 <h2 align="middle">Overview</h2>
-<p>Give a high-level overview of what you implemented in this project. Think about what you've built as a whole. Share your thoughts on what interesting things you've learned from completing the project.</p>
+<p>We implemented a real-time simulation of cloth using a mass and spring based system. 
+  Firstly, we built the data structures to discretely represent the cloth, define and apply three physical constraints on them (structual, shearing and bending), 
+  and apply numerical integration to simulate the way cloth moves over time. 
+  Secondly, we implemented collisions of the cloth with other objects as well as self-collisions to prevent cloth clipping.
+  Finally, we implemented multiple shaders (Diffuse shader, Blinn-Phong shader, Texture shader, Bumping shader, Displacement Shader and Mirror shader) using GLSL.
+  </p>
 
 <h2 align="middle">Part 1: Masses and springs</h2>
 <h3>
@@ -379,6 +384,7 @@ the damping value, the cloth moves slower and slower, finally reaching its resti
   You can either provide your own texture or use one of the ones in the textures directory, BUT choose one that's not the default texture_2.png. Compare the two 
   approaches and resulting renders in your own words. Compare how your the two shaders react to the sphere by changing the sphere mesh's coarseness by using -o 16 -a 16 and then -o 128 -a 128.
 </h3>
+
 
 <h3>
   Show a screenshot of your mirror shader on the cloth and on the sphere.
