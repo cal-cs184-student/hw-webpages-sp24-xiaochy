@@ -377,9 +377,92 @@ the damping value, the cloth moves slower and slower, finally reaching its resti
 <h3>
   Show a screenshot of bump mapping on the cloth and on the sphere. Show a screenshot of displacement mapping on the sphere. Use the same texture for both renders. 
   You can either provide your own texture or use one of the ones in the textures directory, BUT choose one that's not the default texture_2.png. Compare the two 
-  approaches and resulting renders in your own words. Compare how your the two shaders react to the sphere by changing the sphere mesh's coarseness by using -o 16 -a 16 and then -o 128 -a 128.
+  approaches and resulting renders in your own words. Compare how the two shaders react to the sphere by changing the sphere mesh's coarseness by using -o 16 -a 16 and then -o 128 -a 128.
 </h3>
+<h4>Bump Shading</h4>
+<div align="middle">
+  <table style="width:100%">
+    <tr align="center">
+      <td>
+        <img src="./part5.4bump4.jpg" align="middle" width="500px" />
+        <figcaption>Bump shading on sphere with cloth</figcaption>
+      </td>
+      <td>
+        <img src="./part5.4bump1.jpg" align="middle" width="500px" />
+        <figcaption>Bump shading on sphere with cloth</figcaption>
+      </td>
+    </tr>
+    <tr align="center">
+      <td>
+        <img src="./part5.4bump2.jpg" align="middle" width="500px" />
+        <figcaption>Bump shading on sphere</figcaption>
+      </td>
+      <td>
+        <img src="./part5.4bump3.jpg" align="middle" width="500px" />
+        <figcaption>Bump shading on cloth</figcaption>
+      </td>
+    </tr>
+  </table>
+</div>
 
+<h4>Displacement Shading</h4>
+<div align="middle">
+  <table style="width:100%">
+    <tr align="center">
+      <td>
+        <img src="./part5.4disp4.jpg" align="middle" width="500px" />
+        <figcaption>Displacement shading on sphere with cloth</figcaption>
+      </td>
+      <td>
+        <img src="./part5.4disp1.jpg" align="middle" width="500px" />
+        <figcaption>Displacement shading on sphere with cloth</figcaption>
+      </td>
+    </tr>
+    <tr align="center">
+      <td>
+        <img src="./part5.4disp2.jpg" align="middle" width="500px" />
+        <figcaption>Displacement shading on sphere</figcaption>
+      </td>
+      <td>
+        <img src="./part5.4disp3.jpg" align="middle" width="500px" />
+        <figcaption>Displacement shading on cloth</figcaption>
+      </td>
+    </tr>
+  </table>
+</div>
+In bump shading, we create the illusion of "bumps" by changing the normal vectors at each vertex. We estimate the new normal of each vertex in local space with [dU, dV, 1] and convert it into 
+the model space by left multiplying the TBN matrix. While in displacement shading, not only do we modify the normals, but also we update the position of vertices to reflect the 
+height map. Comparing the two rendering results above, we can see that both shaders show the bumpy feature on the object. However, since displacement shading change each vertex 
+position while bump shading does not, we observe that the sphere with displacement shading is rugged on the top, while the one with bump shading is smooth on its contour.
+
+<h4>Compare the reation to courseness</h4>
+<div align="middle">
+  <table style="width:100%">
+    <tr align="center">
+      <td>
+        <img src="./part5.4bump1616.jpg" align="middle" width="500px" />
+        <figcaption>Bump shading (using -o 16 -a 16)</figcaption>
+      </td>
+      <td>
+        <img src="./part5.4bump128128.jpg" align="middle" width="500px" />
+        <figcaption>Bump shading (using -o 128 -a 128)</figcaption>
+      </td>
+    </tr>
+    <tr align="center">
+      <td>
+        <img src="./part5.4disp1616.jpg" align="middle" width="500px" />
+        <figcaption>Displacement shading (using -o 16 -a 16)</figcaption>
+      </td>
+      <td>
+        <img src="./part5.4disp128128.jpg" align="middle" width="500px" />
+        <figcaption>Displacement shading (using -o 128 -a 128)</figcaption>
+      </td>
+    </tr>
+  </table>
+</div>
+From the above rendering results, we observe that bump shading is not sensitive to change in courseness, as the two images do not reflect significant differences.
+However, in displacement shading, the change in coarseness is obvious. The contour is more rugged when the sphere mesh itself is coarse, while it's smoother when 
+the sphere is smooth.
 <h3>
   Show a screenshot of your mirror shader on the cloth and on the sphere.
 </h3>
