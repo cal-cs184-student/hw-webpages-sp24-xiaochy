@@ -32,7 +32,12 @@
 <div>
 
 <h2 align="middle">Overview</h2>
-<p>Give a high-level overview of what you implemented in this project. Think about what you've built as a whole. Share your thoughts on what interesting things you've learned from completing the project.</p>
+<p>We implemented a real-time simulation of cloth using a mass and spring based system. 
+  Firstly, we built the point-mass data structure to discretely represent the cloth, define and apply three physical constraints (structual, shearing and bending) on the masses, 
+  and apply numerical integration to simulate the way cloth moves over time. 
+  Secondly, we implemented collisions of the cloth with other objects as well as self-collisions to prevent cloth clipping.
+  Finally, we implemented multiple shaders (Diffuse shader, Blinn-Phong shader, Texture shader, Bumping shader, Displacement Shader and Mirror shader) using GLSL.
+  </p>
 
 <h2 align="middle">Part 1: Masses and springs</h2>
 <h3>
